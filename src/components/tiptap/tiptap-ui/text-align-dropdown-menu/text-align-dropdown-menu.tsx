@@ -40,8 +40,6 @@ export function TextAlignDropdownMenu({
   const [isOpen, setIsOpen] = React.useState(false)
   const editor = useTiptapEditor(providedEditor)
 
-  console.log(editor)
-
   const handleOnOpenChange = React.useCallback(
     (open: boolean) => {
       setIsOpen(open)

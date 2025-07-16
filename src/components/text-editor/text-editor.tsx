@@ -157,7 +157,12 @@ const MobileToolbarContent = ({
   </>
 )
 
-export function TextEditor({ content = "" }) {
+type TextEditorProps = {
+  content: string
+  onChange: (content: string) => void
+}
+
+export function TextEditor({ content = "", onChange }: TextEditorProps) {
   const isMobile = useMobile()
   const windowSize = useWindowSize()
   const [mobileView, setMobileView] = React.useState<
@@ -202,6 +207,9 @@ export function TextEditor({ content = "" }) {
       }),
     ],
     content: content,
+    onUpdate: ({ editor }) => {
+      onChange(editor.getText())
+    }
   })
 
   const bodyRect = useCursorVisibility({

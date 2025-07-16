@@ -1,7 +1,9 @@
-import { TextEditor } from "@/components/text-editor/text-editor";
+import { LoginForm } from "@/components/login-form";
 
 export default function Home() {
   return (
-    <TextEditor />
+    <div className="flex flex-col items-center justify-center h-screen">
+      <LoginForm />
+    </div>
   );
 }

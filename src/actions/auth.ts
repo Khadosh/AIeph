@@ -44,14 +44,20 @@ export async function signup(formData: FormData) {
   redirect('/')
 }
 
-export async function withSession() {
+export async function getUser() {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.getUser()
 
   if (error || !data?.user) {
-    redirect('/login')
+    return null
   }
 
   return data.user
+}
+
+export async function logout() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/')
 }

@@ -1,8 +1,9 @@
 'use client'
 
-import { generateFeedback } from "@/actions/ai";
-
 import { useState } from "react";
+import ReactMarkdown from 'react-markdown';
+
+import { generateFeedback } from "@/actions/ai";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 
@@ -20,7 +21,7 @@ export default function Suggestions({ content }: { content: string }) {
   }
 
   return (
-    <div className="absolute bottom-0 top-0 right-0 w-1/4 z-10 bg-gray-100">
+    <div className="w-full h-full bg-gray-100">
       <div className="h-[44px] flex flex-row items-center justify-center border-b">
         <Button onClick={handleGenerate} disabled={isLoading} size="sm">
           {isLoading 
@@ -29,9 +30,9 @@ export default function Suggestions({ content }: { content: string }) {
         </Button>
       </div>
 
-      <div className="p-4 text-sm text-gray-500 h-full overflow-y-auto">
+      <div className="p-4 text-sm text-gray-500 h-full overflow-y-auto pb-20">
         {isLoading && "Estamos analizando tu texto, puede que tarde un poco..."}
-        {response}
+        <ReactMarkdown>{response}</ReactMarkdown>
       </div>
     </div>
   )

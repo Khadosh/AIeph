@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI-eph
 
-## Getting Started
+> Your AI-powered writing co-pilot.
 
-First, run the development server:
+AI-eph is a web application designed for novelists and world-builders. Unlike traditional text editors, AI-eph is more than just a place to write; it acts as an intelligent assistant that reads, understands, and analyzes your work to help you maintain consistency, track characters, and detect contradictions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 About The Project
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Writers of long-form fiction often struggle with consistency. In which chapter did this character last appear? What was their eye color in the first book? Does this new plot point contradict something established earlier?
 
-## Learn More
+AI-eph was born to solve this problem, acting as the memory and analyst for your fictional universe.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Key Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* **Chapter-Based Editor:** A clean, focused interface to let you write without distractions.
+* **Secure Authentication:** Manage your work privately and securely with a user account system.
+* **Personal Dashboard:** Access all your writings and projects from a single, organized space.
+* **AI-Powered Analysis (In Development):**
+    * **Character Profiles:** Automatically generate a profile for each character, detailing their descriptions and appearances.
+    * **Timelines:** Visualize the key events in your story.
+    * **Contradiction Detector:** Get alerted to potential inconsistencies in your plot, descriptions, or dialogue.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is built with a modern, performance-focused tech stack:
+
+* **Framework:** [Next.js](https://nextjs.org/) (App Router)
+* **Language:** [TypeScript](https://www.typescriptlang.org/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Component Library:** [Shadcn/ui](https://ui.shadcn.com/)
+* **Backend & Database:** [Supabase](https://supabase.com/) (Auth, PostgreSQL with `pgvector`, Storage)
+* **AI:** [Google AI (Gemini)](https://ai.google.dev/)
+* **Deployment:** [Vercel](https://vercel.com/)
+
+---
+
+## ⚙️ Getting Started
+
+Follow these steps to get the project running on your local machine.
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Khadosh/AI-eph.git](https://github.com/Khadosh/AI-eph.git)
+    cd AI-eph
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up environment variables:**
+    Create a file named `.env.local` in the project root and add your Supabase and Google AI keys.
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+    GOOGLE_AI_API_KEY=YOUR_GOOGLE_AI_API_KEY
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+---
+
+## 🗺️ Roadmap
+
+The road ahead for AI-eph:
+
+* [x] Initial project setup (Next.js, TS, Tailwind).
+* [x] Shadcn/ui integration.
+* [x] Authentication system with Supabase.
+* [ ] Database schema for users and writings.
+* [ ] User dashboard to list and create new writings.
+* [ ] Functional text editor.
+* [ ] **Phase 2:** AI integration for text analysis.
+* [ ] **Phase 3:** Contradiction detector implementation with embeddings.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License. See the `LICENSE` file for more details.

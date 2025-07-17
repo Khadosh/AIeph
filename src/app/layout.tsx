@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+
+import {NextIntlClientProvider} from 'next-intl';
+import {getLocale} from 'next-intl/server';
 import { Geist, Geist_Mono } from "next/font/google";
+
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import AppHeader from "@/components/app-header";
@@ -22,13 +26,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
@@ -36,10 +42,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextIntlClientProvider>
           <div className="flex flex-col max-h-screen">  
             <AppHeader />
-            <main className="flex-1">{children}</main>
-          </div>
+              <main className="flex-1">{children}</main>
+            </div>
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

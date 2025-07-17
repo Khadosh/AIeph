@@ -1,0 +1,235 @@
+{
+  "homepage": {
+    "title": "Deja de perder el hilo.",
+    "subtitlePrefix": "Escribe con un",
+    "copilot": "copiloto inteligente",
+    "description": "AIeph lee, recuerda y analiza tu obra para que tú solo te preocupes por crear. Detecta contradicciones, sigue a tus personajes y mantén la coherencia de tu universo sin esfuerzo.",
+    "cta": {
+      "primary": "Empieza a Escribir Gratis",
+      "secondary": "Ver Características"
+    },
+    "nav": {
+      "features": "Características",
+      "login": "Iniciar Sesión",
+      "getStarted": "Empezar Gratis"
+    },
+    "features": {
+      "title": "Tu universo, más coherente que nunca.",
+      "subtitle": "Herramientas diseñadas para escritores que construyen mundos.",
+      "contradictions": {
+        "title": "Detector de Contradicciones",
+        "description": "¿El color de ojos de tu protagonista cambió? AIeph lo detecta y te avisa antes de que tus lectores lo hagan."
+      },
+      "characters": {
+        "title": "Perfiles de Personajes Vivos",
+        "description": "Genera fichas de personajes que se actualizan automáticamente. Sigue sus relaciones, motivaciones y evolución."
+      },
+      "timeline": {
+        "title": "Líneas de Tiempo Automáticas",
+        "description": "Visualiza los eventos clave de tu trama en una línea de tiempo interactiva. Entiende el flujo de tu historia de un solo vistazo."
+      }
+    },
+    "testimonial": {
+      "quote": "AIeph encontró un agujero de guion en mi tercer acto que me habría costado semanas arreglar. Es como tener un editor beta personal disponible 24/7.",
+      "author": "Ana Rodríguez",
+      "role": "Autora de \"Las Crónicas de la Sombra\""
+    },
+    "finalCta": {
+      "title": "¿Listo para escribir tu obra maestra?",
+      "description": "Únete a la nueva generación de escritores. Regístrate gratis y lleva tu historia al siguiente nivel.",
+      "button": "Crear mi Cuenta Gratis"
+    },
+    "footer": {
+      "copyright": "© 2025 AIeph. Todos los derechos reservados."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de vuelta",
+      "email": "Correo electrónico",
+      "password": "Contraseña actual",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar Sesión",
+      "noAccount": "¿No tienes cuenta? Regístrate",
+      "termsAndPrivacy": "Términos de Servicio y Política de Privacidad"
+    },
+    "signup": {
+      "title": "Crear una cuenta",
+      "description": "Crea una cuenta con tu correo electrónico y contraseña",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Crear Cuenta",
+      "hasAccount": "¿Ya tienes cuenta? Inicia sesión",
+      "termsAndPrivacy": "Términos de Servicio y Política de Privacidad"
+    },
+    "error": {
+      "title": "Lo sentimos, algo salió mal"
+    }
+  },
+  "app": {
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Hola {email}",
+      "subtitle": "Tu espacio de escritura",
+      "novels": {
+        "title": "Mis Novelas",
+        "subtitle": "Gestiona tus proyectos de escritura",
+        "empty": {
+          "title": "Aún no tienes novelas",
+          "description": "Comienza tu primera obra maestra creando una nueva novela.",
+          "action": "Crear mi primera novela"
+        },
+        "create": "Nueva Novela",
+        "viewAll": "Ver todas las novelas",
+        "createForm": {
+          "title": "Crear Nueva Novela",
+          "subtitle": "Comienza tu próxima obra maestra",
+          "form": {
+            "title": "Título de la novela",
+            "titlePlaceholder": "Ingresa el título de tu novela",
+            "description": "Descripción",
+            "descriptionPlaceholder": "Describe brevemente tu novela (opcional)",
+            "genre": "Género",
+            "genrePlaceholder": "Selecciona géneros...",
+            "genreEmptyMessage": "No se encontraron géneros",
+            "status": "Estado",
+            "statusOptions": {
+              "draft": "Borrador",
+              "published": "Publicada",
+              "archived": "Archivada"
+            },
+            "submit": "Crear Novela",
+            "cancel": "Cancelar"
+          }
+        }
+      },
+      "stats": {
+        "totalNovels": "Novelas Totales",
+        "totalWords": "Palabras Escritas",
+        "totalChapters": "Capítulos"
+      },
+      "chapters": {
+        "new": {
+          "title": "Nuevo Capítulo",
+          "chapterTitle": "Título del Capítulo",
+          "chapterTitlePlaceholder": "Ingresa el título del capítulo",
+          "content": "Contenido",
+          "contentPlaceholder": "Comienza a escribir tu capítulo aquí...",
+          "back": "Volver",
+          "draft": "Borrador",
+          "published": "Publicado",
+          "save": "Guardar",
+          "saving": "Guardando...",
+          "loadingEditor": "Cargando editor...",
+          "autoSaving": "Guardando automáticamente...",
+          "autoSaved": "Guardado automáticamente",
+          "lastSaved": "Último guardado",
+          "toolbar": {
+            "undo": "Deshacer",
+            "redo": "Rehacer",
+            "bold": "Negrita",
+            "italic": "Cursiva",
+            "heading2": "Título 2",
+            "heading3": "Título 3",
+            "bulletList": "Lista con viñetas",
+            "orderedList": "Lista numerada",
+            "blockquote": "Cita"
+          },
+          "wordCount": {
+            "words": "palabras",
+            "characters": "caracteres",
+            "charactersWithSpaces": "caracteres con espacios"
+          }
+        }
+      }
+    },
+    "private": {
+      "title": "Página Privada",
+      "welcome": "Hola {email}"
+    }
+  },
+  "brand": {
+    "name": "AIeph"
+  },
+  "common": {
+    "toggleTheme": "Alternar tema"
+  },
+  "metadata": {
+    "title": "AIeph - Copiloto Inteligente para Escritores",
+    "description": "Escribe con un copiloto inteligente que detecta contradicciones y mantiene la coherencia de tu universo"
+  },
+  "genres": {
+    "speculative fiction": "Ficción Especulativa",
+    "science fiction": "Ciencia Ficción",
+    "hard science fiction": "Ciencia Ficción Dura",
+    "soft science fiction": "Ciencia Ficción Blanda",
+    "cyberpunk": "Ciberpunk",
+    "steampunk": "Steampunk",
+    "dieselpunk": "Dieselpunk",
+    "space opera": "Ópera Espacial",
+    "dystopian": "Distópico",
+    "utopian": "Utópico",
+    "post-apocalyptic": "Post-Apocalíptico",
+    "time travel": "Viajes en el Tiempo",
+    "fantasy": "Fantasía",
+    "high fantasy": "Alta Fantasía",
+    "epic fantasy": "Fantasía Épica",
+    "low fantasy": "Baja Fantasía",
+    "urban fantasy": "Fantasía Urbana",
+    "dark fantasy": "Fantasía Oscura",
+    "historical fantasy": "Fantasía Histórica",
+    "magical realism": "Realismo Mágico",
+    "horror": "Terror",
+    "psychological horror": "Terror Psicológico",
+    "supernatural horror": "Terror Sobrenatural",
+    "gothic horror": "Terror Gótico",
+    "cosmic horror": "Terror Cósmico",
+    "lovecraftian horror": "Terror Lovecraftiano",
+    "body horror": "Terror Corporal",
+    "slasher": "Slasher",
+    "mystery": "Misterio",
+    "crime": "Crimen",
+    "detective fiction": "Ficción Detectivesca",
+    "whodunit": "Whodunit",
+    "police procedural": "Procedimiento Policial",
+    "noir": "Noir",
+    "hardboiled": "Hardboiled",
+    "thriller": "Thriller",
+    "suspense": "Suspenso",
+    "psychological thriller": "Thriller Psicológico",
+    "action thriller": "Thriller de Acción",
+    "legal thriller": "Thriller Legal",
+    "literary fiction": "Ficción Literaria",
+    "contemporary fiction": "Ficción Contemporánea",
+    "drama": "Drama",
+    "romance": "Romance",
+    "contemporary romance": "Romance Contemporáneo",
+    "historical romance": "Romance Histórico",
+    "paranormal romance": "Romance Paranormal",
+    "erotic romance": "Romance Erótico",
+    "romantic comedy": "Comedia Romántica",
+    "chick lit": "Chick Lit",
+    "psychological fiction": "Ficción Psicológica",
+    "family saga": "Saga Familiar",
+    "coming-of-age": "Iniciación",
+    "bildungsroman": "Bildungsroman",
+    "historical fiction": "Ficción Histórica",
+    "historical adventure": "Aventura Histórica",
+    "biographical novel": "Novela Biográfica",
+    "adventure": "Aventura",
+    "humor": "Humor",
+    "satire": "Sátira",
+    "graphic novel": "Novela Gráfica",
+    "young adult (ya)": "Juvenil (YA)",
+    "children's fiction": "Ficción Infantil",
+    "western": "Western",
+    "inspirational": "Inspiracional",
+    "christian fiction": "Ficción Cristiana",
+    "military fiction": "Ficción Militar",
+    "spy fiction (espionage)": "Ficción de Espionaje",
+    "political thriller": "Thriller Político",
+    "techno-thriller": "Techno-Thriller",
+    "other": "Otro"
+  }
+}

@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 
 import { generateFeedback } from "@/actions/ai";
 import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 
 export default function Suggestions({ content }: { content: string }) {
   const [response, setResponse] = useState<string>("");
@@ -21,12 +21,17 @@ export default function Suggestions({ content }: { content: string }) {
   }
 
   return (
-    <div className="w-full h-full bg-gray-100">
-      <div className="h-[44px] flex flex-row items-center justify-center border-b">
-        <Button onClick={handleGenerate} disabled={isLoading} size="sm">
-          {isLoading 
-            ? <Loader2 className="w-4 h-4 animate-spin" /> 
-            : "Analizar texto"}
+    <div className="w-full h-full bg-gray-50">
+      <div className="h-[44px] flex flex-row items-center justify-end">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleGenerate}
+          disabled={!content.trim() || isLoading}
+          className="mr-4"
+        >
+          <Sparkles className="h-4 w-4 mr-1" />
+          {isLoading ? 'Analizando...' : 'Analizar capítulo'}
         </Button>
       </div>
 

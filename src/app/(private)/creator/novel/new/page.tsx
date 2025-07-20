@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import { ArrowLeft, Save, Trash2 } from 'lucide-react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -10,16 +10,13 @@ import { Label } from '@/components/ui/label'
 import { Autocomplete } from '@/components/ui/autocomplete'
 import { genres } from '@/constants/genres'
 import { createClient } from '@/utils/supabase/client'
-import type { Database, Tables, TablesUpdate } from '@/types/supabase'
+import type { Database, TablesInsert } from '@/types/supabase'
 
-type Novel = Tables<'novels'>
-type NovelUpdate = TablesUpdate<'novels'>
+type NovelInsert = TablesInsert<'novels'>
 
-export default function EditNovelPage() {
-  const [novel, setNovel] = useState<Novel | null>(null)
-  const [loading, setLoading] = useState(true)
+export default function NewNovelPage() {
   const [saving, setSaving] = useState(false)
-  const [formData, setFormData] = useState<Partial<NovelUpdate>>({
+  const [formData, setFormData] = useState<Partial<NovelInsert>>({
     title: '',
     description: '',
     genre: '',
@@ -29,101 +26,27 @@ export default function EditNovelPage() {
   const genreOptions = genres.map(genre => ({ value: genre, label: genre }))
   
   const router = useRouter()
-  const params = useParams()
-  const novelId = params.novel_id as string
   const supabase = createClient()
 
-  useEffect(() => {
-    if (novelId) {
-      fetchNovel()
-    }
-  }, [novelId])
+  const handleSave = async () => {
+    if (!formData.title) return
 
-  const fetchNovel = async () => {
+    setSaving(true)
     try {
       const { data, error } = await supabase
         .from('novels')
-        .select('*')
-        .eq('id', novelId)
+        .insert([formData])
+        .select()
         .single()
 
       if (error) throw error
       
-      setNovel(data)
-      setFormData({
-        title: data.title,
-        description: data.description,
-        genre: data.genre,
-        status: data.status
-      })
-    } catch (error) {
-      console.error('Error fetching novel:', error)
-      router.push('/creator/novel')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleSave = async () => {
-    if (!novel) return
-
-    setSaving(true)
-    try {
-      const { error } = await supabase
-        .from('novels')
-        .update({
-          ...formData,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', novel.id)
-
-      if (error) throw error
-      
       router.push('/creator/novel')
     } catch (error) {
-      console.error('Error updating novel:', error)
+      console.error('Error creating novel:', error)
     } finally {
       setSaving(false)
     }
-  }
-
-  const handleDelete = async () => {
-    if (!novel) return
-
-    try {
-      const { error } = await supabase
-        .from('novels')
-        .delete()
-        .eq('id', novel.id)
-
-      if (error) throw error
-      
-      router.push('/creator/novel')
-    } catch (error) {
-      console.error('Error deleting novel:', error)
-    }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-      </div>
-    )
-  }
-
-  if (!novel) {
-    return (
-      <div className="container mx-auto p-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Novela no encontrada</h1>
-          <Button onClick={() => router.push('/creator/novel')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Volver a Novelas
-          </Button>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -138,8 +61,8 @@ export default function EditNovelPage() {
             Volver
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Editar Novela</h1>
-            <p className="text-gray-600 mt-1">Modifica los detalles de tu novela</p>
+            <h1 className="text-3xl font-bold text-gray-900">Nueva Novela</h1>
+            <p className="text-gray-600 mt-1">Comienza un nuevo proyecto de escritura</p>
           </div>
         </div>
 
@@ -147,7 +70,7 @@ export default function EditNovelPage() {
           <CardHeader>
             <CardTitle>Información de la Novela</CardTitle>
             <CardDescription>
-              Actualiza los detalles de tu proyecto de escritura
+              Completa los detalles de tu nuevo proyecto
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -201,22 +124,14 @@ export default function EditNovelPage() {
               </select>
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="pt-4">
               <Button
                 onClick={handleSave}
                 disabled={!formData.title || saving}
-                className="flex-1"
+                className="w-full"
               >
                 <Save className="h-4 w-4 mr-2" />
-                {saving ? 'Guardando...' : 'Guardar Cambios'}
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={handleDelete}
-                className="flex-1"
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Eliminar Novela
+                {saving ? 'Creando...' : 'Crear Novela'}
               </Button>
             </div>
           </CardContent>
@@ -224,4 +139,4 @@ export default function EditNovelPage() {
       </div>
     </div>
   )
-}
+} 

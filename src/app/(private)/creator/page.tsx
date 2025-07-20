@@ -1,6 +1,6 @@
 'use client'
 
-import Suggestions from "@/components/Suggestions";
+import Suggestions from "@/components/suggestions";
 import { TextEditor } from "@/components/text-editor/text-editor";
 import { useState } from "react";
 

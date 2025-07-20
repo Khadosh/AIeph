@@ -22,13 +22,30 @@ AI-eph was born to solve this problem, acting as the memory and analyst for your
 
 ## ✨ Key Features
 
-* **Chapter-Based Editor:** A clean, focused interface to let you write without distractions.
-* **Secure Authentication:** Manage your work privately and securely with a user account system.
-* **Personal Dashboard:** Access all your writings and projects from a single, organized space.
-* **AI-Powered Analysis (In Development):**
-    * **Character Profiles:** Automatically generate a profile for each character, detailing their descriptions and appearances.
-    * **Timelines:** Visualize the key events in your story.
-    * **Contradiction Detector:** Get alerted to potential inconsistencies in your plot, descriptions, or dialogue.
+### 📚 **Novel Management System**
+* **Novel Dashboard:** Create, edit, and manage multiple novels with detailed metadata
+* **Genre Selection:** Comprehensive autocomplete with 70+ literary genres
+* **Novel Statistics:** Track word count, reading time, and chapter progress
+* **Status Management:** Draft, published, and archived novel states
+
+### 📖 **Advanced Chapter Editor**
+* **Three-Panel Layout:** Optimized writing experience with dedicated spaces for content, notes, and AI suggestions
+* **Rich Text Editor:** Full-featured TipTap editor with formatting, images, and advanced features
+* **Auto-Generated Summaries:** AI-powered chapter summaries with one-click generation
+* **Author Notes:** Personal annotations and writing notes for each chapter
+* **Real-time Statistics:** Live word count and reading time calculations
+
+### 🤖 **AI-Powered Features**
+* **Smart Suggestions:** Context-aware writing suggestions and improvements
+* **Character Tracking:** Automatically identify and track character appearances
+* **Consistency Analysis:** Detect potential plot contradictions and inconsistencies
+* **Writing Assistance:** Real-time feedback and writing tips
+
+### 🔐 **Security & Performance**
+* **Secure Authentication:** Supabase-powered user management
+* **Server-Side Rendering:** Optimized performance with Next.js App Router
+* **Modern Architecture:** Clean separation between server and client components
+* **Responsive Design:** Works seamlessly on desktop and mobile devices
 
 ---
 
@@ -36,13 +53,30 @@ AI-eph was born to solve this problem, acting as the memory and analyst for your
 
 This project is built with a modern, performance-focused tech stack:
 
-* **Framework:** [Next.js](https://nextjs.org/) (App Router)
-* **Language:** [TypeScript](https://www.typescriptlang.org/)
-* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-* **Component Library:** [Shadcn/ui](https://ui.shadcn.com/)
-* **Backend & Database:** [Supabase](https://supabase.com/) (Auth, PostgreSQL with `pgvector`, Storage)
-* **AI:** [Google AI (Gemini)](https://ai.google.dev/)
-* **Deployment:** [Vercel](https://vercel.com/)
+* **Framework:** [Next.js](https://nextjs.org/) (App Router with Server Components)
+* **Language:** [TypeScript](https://www.typescriptlang.org/) with strict type checking
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/) with custom design system
+* **Component Library:** [Shadcn/ui](https://ui.shadcn.com/) for consistent UI
+* **Text Editor:** [TipTap](https://tiptap.dev/) for rich text editing
+* **Backend & Database:** [Supabase](https://supabase.com/) (Auth, PostgreSQL, Real-time)
+* **AI Integration:** [Google AI (Gemini)](https://ai.google.dev/) for intelligent features
+* **Deployment:** [Vercel](https://vercel.com/) for seamless deployment
+
+---
+
+## 🏗️ Architecture
+
+### **Modern React Patterns**
+* **Server Components:** Data fetching and rendering on the server
+* **Client Components:** Interactive features and state management
+* **Type Safety:** Full TypeScript integration with Supabase types
+* **Component Reusability:** Shared components for create/edit operations
+
+### **Database Schema**
+* **Novels:** Title, description, genre, status, metadata
+* **Chapters:** Content, summary, author notes, statistics, ordering
+* **User Management:** Secure authentication and authorization
+* **Real-time Features:** Live collaboration and updates
 
 ---
 
@@ -80,16 +114,30 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 
 ## 🗺️ Roadmap
 
-The road ahead for AI-eph:
+### **Completed Features** ✅
+* [x] Initial project setup (Next.js, TS, Tailwind)
+* [x] Shadcn/ui integration and design system
+* [x] Authentication system with Supabase
+* [x] Database schema for novels and chapters
+* [x] Novel management dashboard (CRUD operations)
+* [x] Advanced chapter editor with three-panel layout
+* [x] Rich text editor with TipTap integration
+* [x] Genre selection with autocomplete
+* [x] Real-time statistics and word counting
+* [x] Modern architecture with Server/Client components
 
-* [x] Initial project setup (Next.js, TS, Tailwind).
-* [x] Shadcn/ui integration.
-* [x] Authentication system with Supabase.
-* [ ] Database schema for users and writings.
-* [ ] User dashboard to list and create new writings.
-* [ ] Functional text editor.
-* [ ] **Phase 2:** AI integration for text analysis.
-* [ ] **Phase 3:** Contradiction detector implementation with embeddings.
+### **In Development** 🚧
+* [ ] AI-powered summary generation
+* [ ] Character tracking and analysis
+* [ ] Contradiction detection system
+* [ ] Advanced AI suggestions
+* [ ] Collaborative writing features
+
+### **Future Features** 🔮
+* [ ] **Phase 2:** Advanced AI analysis and character profiles
+* [ ] **Phase 3:** Timeline visualization and plot tracking
+* [ ] **Phase 4:** Publishing and sharing capabilities
+* [ ] **Phase 5:** Mobile app and offline support
 
 ---
 

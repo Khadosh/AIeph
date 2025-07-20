@@ -118,6 +118,106 @@
       "maxItemsHelperPlural": "Maximum of {max} items selected. Remove one to add more."
     }
   },
+  "editor": {
+    "suggestions": {
+      "analyze": "Analyze chapter",
+      "analyzing": "Analyzing...",
+      "analyzingMessage": "We are analyzing your text, it may take a while..."
+    },
+    "summary": {
+      "label": "Summary",
+      "generate": "Generate",
+      "generating": "Generating...",
+      "placeholder": "Chapter summary..."
+    },
+    "chapter": {
+      "titlePlaceholder": "Chapter title...",
+      "notesLabel": "Author Notes",
+      "notesPlaceholder": "Personal notes about the chapter...",
+      "back": "Back",
+      "save": "Save",
+      "saving": "Saving...",
+      "create": "Create Chapter",
+      "creating": "Creating...",
+      "update": "Update Chapter",
+      "updating": "Updating..."
+    },
+    "textEditor": {
+      "placeholder": "Start typing...",
+      "ariaLabel": "Main content area, start typing to enter text."
+    },
+    "toolbar": {
+      "heading": "Heading {level}",
+      "formatAsHeading": "Format text as heading",
+      "lists": {
+        "bullet": "Bullet List",
+        "ordered": "Ordered List", 
+        "task": "Task List",
+        "options": "List options",
+        "label": "List"
+      },
+      "link": {
+        "placeholder": "Paste a link...",
+        "apply": "Apply link",
+        "openNewWindow": "Open in new window",
+        "remove": "Remove link",
+        "label": "Link"
+      },
+      "alignment": {
+        "label": "Text alignment",
+        "left": "Left",
+        "center": "Center", 
+        "right": "Right",
+        "justify": "Justify",
+        "alignLeft": "Align left",
+        "alignCenter": "Align center",
+        "alignRight": "Align right",
+        "alignJustify": "Align justify"
+      },
+      "actions": {
+        "undo": "Undo",
+        "redo": "Redo",
+        "blockquote": "Blockquote",
+        "codeBlock": "Code Block"
+      },
+      "formatting": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "underline": "Underline",
+        "strikethrough": "Strikethrough",
+        "code": "Code"
+      },
+      "highlight": {
+        "label": "Highlight text",
+        "tooltip": "Highlight",
+        "remove": "Remove highlight",
+        "colors": "Highlight colors",
+        "colorNames": {
+          "green": "Green",
+          "blue": "Blue",
+          "red": "Red",
+          "purple": "Purple",
+          "yellow": "Yellow"
+        }
+      },
+      "image": {
+        "addImage": "Add image",
+        "clickToUpload": "Click to upload",
+        "dragAndDrop": " or drag and drop",
+        "maximumFileSize": "Maximum file size",
+        "noFileSelected": "No file selected",
+        "errors": {
+          "fileSizeExceeds": "File size exceeds maximum allowed",
+          "uploadFunctionNotDefined": "Upload function is not defined",
+          "uploadFailedNoUrl": "Upload failed: No URL returned",
+          "uploadFailed": "Upload failed",
+          "noFilesToUpload": "No files to upload",
+          "maximumFilesAllowed": "Maximum {max} file(s) allowed",
+          "fileUndefined": "File is undefined"
+        }
+      }
+    }
+  },
   "app": {
     "dashboard": {
       "title": "Dashboard",
@@ -151,7 +251,8 @@
               "published": "Published",
               "archived": "Archived",
               "completed": "Completed",
-              "inProgress": "In Progress"
+              "inProgress": "In Progress",
+              "needsReview": "Needs Review"
             },
             "submit": "Create Novel",
             "submitting": "Creating...",
@@ -185,6 +286,31 @@
             "subtitle": "Start a new writing project",
             "cardTitle": "Novel Information",
             "cardDescription": "Complete the details of your new project"
+          },
+          "detail": {
+            "notFound": "Novel not found",
+            "backToNovels": "Back to Novels",
+            "editNovel": "Edit Novel",
+            "back": "Back",
+            "stats": {
+              "chapters": "Chapters",
+              "totalTime": "Total Time",
+              "words": "Words",
+              "created": "Created"
+            },
+            "chaptersSection": {
+              "title": "Chapters",
+              "newChapter": "New Chapter",
+              "empty": {
+                "title": "No chapters yet",
+                "description": "Start writing your first chapter",
+                "action": "Create First Chapter"
+              },
+              "chapterTitle": "Chapter {index}: {title}",
+              "wordsCount": "{count} words",
+              "readingTime": "{minutes} min read",
+              "lastEdited": "Edited {date}"
+            }
           }
         }
       },

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Save } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -34,6 +35,7 @@ export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterE
 
   const router = useRouter()
   const supabase = createClient()
+  const t = useTranslations('editor.chapter')
 
   const getNextChapterOrder = async () => {
     try {
@@ -133,13 +135,13 @@ export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterE
             onClick={() => router.push(`/creator/novel/${novel.id}`)}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Volver
+            {t('back')}
           </Button>
           <div className="flex-1 max-w-md">
             <Input
               value={title}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-              placeholder="Título del capítulo..."
+              placeholder={t('titlePlaceholder')}
               className="!text-3xl font-semibold border-none shadow-none focus-visible:ring-0 px-0"
             />
           </div>
@@ -153,7 +155,7 @@ export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterE
           disabled={!title.trim() || !content.trim() || saving}
         >
           <Save className="h-4 w-4 mr-2" />
-          {saving ? 'Guardando...' : mode === 'create' ? 'Guardar Capítulo' : 'Guardar Cambios'}
+          {saving ? t('saving') : mode === 'create' ? t('create') : t('update')}
         </Button>
       </div>
 
@@ -164,11 +166,11 @@ export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterE
           <Resume content={content} />
 
           <div className="p-4 flex-1">
-            <Label className="text-sm font-medium mb-3 block">Notas del Autor</Label>
+            <Label className="text-sm font-medium mb-3 block">{t('notesLabel')}</Label>
             <textarea
               value={authorNotes}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setAuthorNotes(e.target.value)}
-              placeholder="Notas personales sobre el capítulo..."
+              placeholder={t('notesPlaceholder')}
               className="w-full h-32 resize-none rounded-md border border-gray-300 p-2 text-sm"
             />
           </div>

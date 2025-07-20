@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { isNodeSelection, type Editor } from "@tiptap/react"
+import { useTranslations } from "next-intl"
 
 // --- Hooks ---
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
@@ -18,7 +19,7 @@ import {
   ListButton,
   canToggleList,
   isListActive,
-  listOptions,
+  getListOptions,
   type ListType,
 } from "@/components/tiptap/tiptap-ui/list-button/list-button"
 
@@ -67,9 +68,11 @@ export function isAnyListActive(
 }
 
 export function getFilteredListOptions(
-  availableTypes: ListType[]
-): typeof listOptions {
-  return listOptions.filter(
+  availableTypes: ListType[],
+  t: (key: string) => string
+) {
+  const allOptions = getListOptions(t)
+  return allOptions.filter(
     (option) => !option.type || availableTypes.includes(option.type)
   )
 }
@@ -100,6 +103,7 @@ export function useListDropdownState(
   editor: Editor | null,
   availableTypes: ListType[]
 ) {
+  const t = useTranslations()
   const [isOpen, setIsOpen] = React.useState(false)
 
   const listInSchema = availableTypes.some((type) =>
@@ -107,8 +111,8 @@ export function useListDropdownState(
   )
 
   const filteredLists = React.useMemo(
-    () => getFilteredListOptions(availableTypes),
-    [availableTypes]
+    () => getFilteredListOptions(availableTypes, t),
+    [availableTypes, t]
   )
 
   const canToggleAny = canToggleAnyList(editor, availableTypes)
@@ -135,7 +139,7 @@ export function useListDropdownState(
 
 export function useActiveListIcon(
   editor: Editor | null,
-  filteredLists: typeof listOptions
+  filteredLists: ReturnType<typeof getListOptions>
 ) {
   return React.useCallback(() => {
     const activeOption = filteredLists.find((option) =>
@@ -157,6 +161,7 @@ export function ListDropdownMenu({
   onOpenChange,
   ...props
 }: ListDropdownMenuProps) {
+  const t = useTranslations()
   const editor = useTiptapEditor(providedEditor)
 
   const {
@@ -198,8 +203,8 @@ export function ListDropdownMenu({
           data-active-state={isAnyActive ? "on" : "off"}
           role="button"
           tabIndex={-1}
-          aria-label="List options"
-          tooltip="List"
+          aria-label={t("editor.toolbar.lists.options")}
+          tooltip={t("editor.toolbar.lists.label")}
           {...props}
         >
           {getActiveIcon()}

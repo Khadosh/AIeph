@@ -118,6 +118,106 @@
       "maxItemsHelperPlural": "Máximo de {max} elementos seleccionados. Elimina uno para agregar más."
     }
   },
+  "editor": {
+    "suggestions": {
+      "analyze": "Analizar capítulo",
+      "analyzing": "Analizando...",
+      "analyzingMessage": "Estamos analizando tu texto, puede que tarde un poco..."
+    },
+    "summary": {
+      "label": "Resumen",
+      "generate": "Generar",
+      "generating": "Generando...",
+      "placeholder": "Resumen del capítulo..."
+    },
+    "chapter": {
+      "titlePlaceholder": "Título del capítulo...",
+      "notesLabel": "Notas del Autor",
+      "notesPlaceholder": "Notas personales sobre el capítulo...",
+      "back": "Volver",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "create": "Crear Capítulo",
+      "creating": "Creando...",
+      "update": "Actualizar Capítulo",
+      "updating": "Actualizando..."
+    },
+    "textEditor": {
+      "placeholder": "Empieza a escribir...",
+      "ariaLabel": "Área de contenido principal, empieza a escribir para ingresar texto."
+    },
+    "toolbar": {
+      "heading": "Encabezado {level}",
+      "formatAsHeading": "Formatear texto como encabezado",
+      "lists": {
+        "bullet": "Lista con Viñetas",
+        "ordered": "Lista Numerada", 
+        "task": "Lista de Tareas",
+        "options": "Opciones de lista",
+        "label": "Lista"
+      },
+      "link": {
+        "placeholder": "Pega un enlace...",
+        "apply": "Aplicar enlace",
+        "openNewWindow": "Abrir en nueva ventana",
+        "remove": "Quitar enlace",
+        "label": "Enlace"
+      },
+      "alignment": {
+        "label": "Alineación de texto",
+        "left": "Izquierda",
+        "center": "Centro", 
+        "right": "Derecha",
+        "justify": "Justificar",
+        "alignLeft": "Alinear a la izquierda",
+        "alignCenter": "Centrar",
+        "alignRight": "Alinear a la derecha",
+        "alignJustify": "Justificar"
+      },
+      "actions": {
+        "undo": "Deshacer",
+        "redo": "Rehacer",
+        "blockquote": "Cita",
+        "codeBlock": "Bloque de Código"
+      },
+      "formatting": {
+        "bold": "Negrita",
+        "italic": "Cursiva",
+        "underline": "Subrayado",
+        "strikethrough": "Tachado",
+        "code": "Código"
+      },
+      "highlight": {
+        "label": "Resaltar texto",
+        "tooltip": "Resaltar",
+        "remove": "Quitar resaltado",
+        "colors": "Colores de resaltado",
+        "colorNames": {
+          "green": "Verde",
+          "blue": "Azul",
+          "red": "Rojo",
+          "purple": "Morado",
+          "yellow": "Amarillo"
+        }
+      },
+      "image": {
+        "addImage": "Añadir imagen",
+        "clickToUpload": "Haz clic para subir",
+        "dragAndDrop": " o arrastra y suelta",
+        "maximumFileSize": "Tamaño máximo de archivo",
+        "noFileSelected": "No se seleccionó archivo",
+        "errors": {
+          "fileSizeExceeds": "El tamaño del archivo excede el máximo permitido",
+          "uploadFunctionNotDefined": "La función de carga no está definida",
+          "uploadFailedNoUrl": "Error de carga: No se devolvió URL",
+          "uploadFailed": "Error de carga",
+          "noFilesToUpload": "No hay archivos para subir",
+          "maximumFilesAllowed": "Máximo {max} archivo(s) permitido(s)",
+          "fileUndefined": "El archivo no está definido"
+        }
+      }
+    }
+  },
   "app": {
     "dashboard": {
       "title": "Dashboard",
@@ -185,6 +285,31 @@
             "subtitle": "Comienza un nuevo proyecto de escritura",
             "cardTitle": "Información de la Novela",
             "cardDescription": "Completa los detalles de tu nuevo proyecto"
+          },
+          "detail": {
+            "notFound": "Novela no encontrada",
+            "backToNovels": "Volver a Novelas",
+            "editNovel": "Editar Novela",
+            "back": "Volver",
+            "stats": {
+              "chapters": "Capítulos",
+              "totalTime": "Tiempo Total",
+              "words": "Palabras",
+              "created": "Creada"
+            },
+            "chaptersSection": {
+              "title": "Capítulos",
+              "newChapter": "Nuevo Capítulo",
+              "empty": {
+                "title": "No hay capítulos aún",
+                "description": "Comienza escribiendo tu primer capítulo",
+                "action": "Crear Primer Capítulo"
+              },
+              "chapterTitle": "Capítulo {index}: {title}",
+              "wordsCount": "{count} palabras",
+              "readingTime": "{minutes} min lectura",
+              "lastEdited": "Editado {date}"
+            }
           }
         }
       },

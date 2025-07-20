@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { type Editor, type ChainedCommands } from "@tiptap/react"
+import { useTranslations } from "next-intl"
 
 // --- Hooks ---
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
@@ -51,12 +52,12 @@ export const textAlignShortcutKeys: Partial<Record<TextAlign, string>> = {
   justify: "Ctrl-Shift-j",
 }
 
-export const textAlignLabels: Record<TextAlign, string> = {
-  left: "Align left",
-  center: "Align center",
-  right: "Align right",
-  justify: "Align justify",
-}
+export const getTextAlignLabels = (t: (key: string) => string): Record<TextAlign, string> => ({
+  left: t("editor.toolbar.alignment.alignLeft"),
+  center: t("editor.toolbar.alignment.alignCenter"),
+  right: t("editor.toolbar.alignment.alignRight"),
+  justify: t("editor.toolbar.alignment.alignJustify"),
+})
 
 export function hasSetTextAlign(
   commands: ChainedCommands
@@ -143,6 +144,8 @@ export function useTextAlign(
   disabled: boolean = false,
   hideWhenUnavailable: boolean = false
 ) {
+  const t = useTranslations()
+  
   const alignAvailable = React.useMemo(
     () => checkTextAlignExtension(editor),
     [editor]
@@ -173,7 +176,8 @@ export function useTextAlign(
 
   const Icon = textAlignIcons[align]
   const shortcutKey = textAlignShortcutKeys[align]
-  const label = textAlignLabels[align]
+  const labels = getTextAlignLabels(t)
+  const label = labels[align]
 
   return {
     alignAvailable,

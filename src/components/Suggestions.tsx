@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReactMarkdown from 'react-markdown';
+import { useTranslations } from 'next-intl';
 
 import { generateFeedback } from "@/actions/ai";
 import { Button } from "./ui/button";
@@ -10,6 +11,7 @@ import { Loader2, Sparkles } from "lucide-react";
 export default function Suggestions({ content }: { content: string }) {
   const [response, setResponse] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const t = useTranslations('editor.suggestions');
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -31,12 +33,12 @@ export default function Suggestions({ content }: { content: string }) {
           className="mr-4"
         >
           <Sparkles className="h-4 w-4 mr-1" />
-          {isLoading ? 'Analizando...' : 'Analizar capítulo'}
+          {isLoading ? t('analyzing') : t('analyze')}
         </Button>
       </div>
 
       <div className="p-4 text-sm text-gray-500 h-full overflow-y-auto pb-20">
-        {isLoading && "Estamos analizando tu texto, puede que tarde un poco..."}
+        {isLoading && t('analyzingMessage')}
         <ReactMarkdown>{response}</ReactMarkdown>
       </div>
     </div>

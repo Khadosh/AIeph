@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { type Editor } from "@tiptap/react"
+import { useTranslations } from "next-intl"
 
 // --- Hooks ---
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
@@ -43,10 +44,10 @@ export const historyShortcutKeys: Partial<Record<HistoryAction, string>> = {
   redo: "Ctrl-Shift-z",
 }
 
-export const historyActionLabels: Record<HistoryAction, string> = {
-  undo: "Undo",
-  redo: "Redo",
-}
+export const getHistoryActionLabels = (t: (key: string) => string): Record<HistoryAction, string> => ({
+  undo: t("editor.toolbar.actions.undo"),
+  redo: t("editor.toolbar.actions.redo"),
+})
 
 /**
  * Checks if a history action can be executed.
@@ -109,6 +110,8 @@ export function useHistoryAction(
   action: HistoryAction,
   disabled: boolean = false
 ) {
+  const t = useTranslations()
+  
   const canExecute = React.useMemo(
     () => canExecuteHistoryAction(editor, action),
     [editor, action]
@@ -122,7 +125,8 @@ export function useHistoryAction(
   }, [editor, action, isDisabled])
 
   const Icon = historyIcons[action]
-  const actionLabel = historyActionLabels[action]
+  const actionLabels = getHistoryActionLabels(t)
+  const actionLabel = actionLabels[action]
   const shortcutKey = historyShortcutKeys[action]
 
   return {

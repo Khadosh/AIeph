@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { isNodeSelection, type Editor } from "@tiptap/react"
+import { useTranslations } from "next-intl"
 
 // --- Hooks ---
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
@@ -45,19 +46,19 @@ export interface ListButtonProps extends Omit<ButtonProps, "type"> {
   hideWhenUnavailable?: boolean
 }
 
-export const listOptions: ListOption[] = [
+export const getListOptions = (t: (key: string) => string): ListOption[] => [
   {
-    label: "Bullet List",
+    label: t("editor.toolbar.lists.bullet"),
     type: "bulletList",
     icon: ListIcon,
   },
   {
-    label: "Ordered List",
+    label: t("editor.toolbar.lists.ordered"),
     type: "orderedList",
     icon: ListOrderedIcon,
   },
   {
-    label: "Task List",
+    label: t("editor.toolbar.lists.task"),
     type: "taskList",
     icon: ListTodoIcon,
   },
@@ -117,8 +118,9 @@ export function toggleList(editor: Editor | null, type: ListType): void {
   }
 }
 
-export function getListOption(type: ListType): ListOption | undefined {
-  return listOptions.find((option) => option.type === type)
+export function getListOption(type: ListType, t: (key: string) => string): ListOption | undefined {
+  const options = getListOptions(t)
+  return options.find((option) => option.type === type)
 }
 
 export function shouldShowListButton(params: {
@@ -146,8 +148,9 @@ export function shouldShowListButton(params: {
 }
 
 export function useListState(editor: Editor | null, type: ListType) {
+  const t = useTranslations()
   const listInSchema = isNodeInSchema(type, editor)
-  const listOption = getListOption(type)
+  const listOption = getListOption(type, t)
   const isActive = isListActive(editor, type)
   const shortcutKey = listShortcutKeys[type]
 

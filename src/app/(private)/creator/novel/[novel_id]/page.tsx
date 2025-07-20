@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/utils/supabase/client'
 import type { Database, Tables } from '@/types/supabase'
+import { useTranslations } from 'next-intl'
+import { useStatusTranslation } from '@/lib/status-utils'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
@@ -20,6 +22,8 @@ export default function NovelDetailPage() {
   const params = useParams()
   const novelId = params.novel_id as string
   const supabase = createClient()
+  const t = useTranslations('app.dashboard.novels.pages.detail')
+  const { getStatusLabel, getStatusColor } = useStatusTranslation()
 
   useEffect(() => {
     if (novelId) {
@@ -64,39 +68,6 @@ export default function NovelDetailPage() {
     })
   }
 
-  const getStatusColor = (status: string | null) => {
-    switch (status) {
-      case 'published':
-        return 'bg-green-100 text-green-800'
-      case 'completed':
-        return 'bg-blue-100 text-blue-800'
-      case 'in_progress':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'draft':
-        return 'bg-gray-100 text-gray-800'
-      case 'needs_review':
-        return 'bg-orange-100 text-orange-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
-
-  const getStatusText = (status: string | null) => {
-    switch (status) {
-      case 'published':
-        return 'Publicado'
-      case 'completed':
-        return 'Completado'
-      case 'in_progress':
-        return 'En Progreso'
-      case 'draft':
-        return 'Borrador'
-      case 'needs_review':
-        return 'Necesita Revisión'
-      default:
-        return 'Borrador'
-    }
-  }
 
   if (loading) {
     return (
@@ -110,10 +81,10 @@ export default function NovelDetailPage() {
     return (
       <div className="container mx-auto p-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Novela no encontrada</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('notFound')}</h1>
           <Button onClick={() => router.push('/creator/novel')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Volver a Novelas
+            {t('backToNovels')}
           </Button>
         </div>
       </div>
@@ -128,7 +99,7 @@ export default function NovelDetailPage() {
           onClick={() => router.push('/creator/novel')}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Volver
+          {t('back')}
         </Button>
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-900">{novel.title}</h1>
@@ -138,7 +109,7 @@ export default function NovelDetailPage() {
           onClick={() => router.push(`/creator/novel/${novel.id}/edit`)}
         >
           <Edit className="h-4 w-4 mr-2" />
-          Editar Novela
+          {t('editNovel')}
         </Button>
       </div>
 
@@ -149,7 +120,7 @@ export default function NovelDetailPage() {
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-blue-600" />
               <div>
-                <p className="text-sm text-gray-600">Capítulos</p>
+                <p className="text-sm text-gray-600">{t('stats.chapters')}</p>
                 <p className="text-2xl font-bold">{chapters.length}</p>
               </div>
             </div>
@@ -160,7 +131,7 @@ export default function NovelDetailPage() {
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-green-600" />
               <div>
-                <p className="text-sm text-gray-600">Tiempo Total</p>
+                <p className="text-sm text-gray-600">{t('stats.totalTime')}</p>
                 <p className="text-2xl font-bold">
                   {chapters.reduce((total, chapter) => total + (chapter.reading_time_minutes || 0), 0)} min
                 </p>
@@ -173,7 +144,7 @@ export default function NovelDetailPage() {
             <div className="flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-purple-600" />
               <div>
-                <p className="text-sm text-gray-600">Palabras</p>
+                <p className="text-sm text-gray-600">{t('stats.words')}</p>
                 <p className="text-2xl font-bold">
                   {chapters.reduce((total, chapter) => total + (chapter.word_count || 0), 0).toLocaleString()}
                 </p>
@@ -186,7 +157,7 @@ export default function NovelDetailPage() {
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-orange-600" />
               <div>
-                <p className="text-sm text-gray-600">Creada</p>
+                <p className="text-sm text-gray-600">{t('stats.created')}</p>
                 <p className="text-sm font-medium">{formatDate(novel.created_at)}</p>
               </div>
             </div>
@@ -196,12 +167,12 @@ export default function NovelDetailPage() {
 
       {/* Chapters Section */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Capítulos</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t('chaptersSection.title')}</h2>
         <Button
           onClick={() => router.push(`/creator/novel/${novel.id}/chapter/new`)}
         >
           <Plus className="h-4 w-4 mr-2" />
-          Nuevo Capítulo
+          {t('chaptersSection.newChapter')}
         </Button>
       </div>
 
@@ -209,11 +180,11 @@ export default function NovelDetailPage() {
         <Card className="text-center py-12">
           <CardContent>
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No hay capítulos aún</h3>
-            <p className="text-gray-600 mb-4">Comienza escribiendo tu primer capítulo</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('chaptersSection.empty.title')}</h3>
+            <p className="text-gray-600 mb-4">{t('chaptersSection.empty.description')}</p>
             <Button onClick={() => router.push(`/creator/novel/${novel.id}/chapter/new`)}>
               <Plus className="h-4 w-4 mr-2" />
-              Crear Primer Capítulo
+              {t('chaptersSection.empty.action')}
             </Button>
           </CardContent>
         </Card>
@@ -226,10 +197,10 @@ export default function NovelDetailPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Capítulo {chapter.order_index}: {chapter.title}
+                        {t('chaptersSection.chapterTitle', { index: chapter.order_index, title: chapter.title })}
                       </h3>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(chapter.status)}`}>
-                        {getStatusText(chapter.status)}
+                        {getStatusLabel(chapter.status)}
                       </span>
                     </div>
                     {chapter.summary && (
@@ -237,13 +208,13 @@ export default function NovelDetailPage() {
                     )}
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       {chapter.word_count && (
-                        <span>{chapter.word_count.toLocaleString()} palabras</span>
+                        <span>{t('chaptersSection.wordsCount', { count: chapter.word_count.toLocaleString() })}</span>
                       )}
                       {chapter.reading_time_minutes && (
-                        <span>{chapter.reading_time_minutes} min lectura</span>
+                        <span>{t('chaptersSection.readingTime', { minutes: chapter.reading_time_minutes })}</span>
                       )}
                       {chapter.last_edited_at && (
-                        <span>Editado {formatDate(chapter.last_edited_at)}</span>
+                        <span>{t('chaptersSection.lastEdited', { date: formatDate(chapter.last_edited_at) })}</span>
                       )}
                     </div>
                   </div>

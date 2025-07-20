@@ -80,8 +80,8 @@ export async function updatePassword(password: string) {
     }
 
     redirect('/creator')
-  } catch (error: any) {
-    console.error('Update password error:', error.message)
+  } catch (error: unknown) {
+    console.error('Update password error:', error instanceof Error ? error.message : 'Unknown error')
     return { error: { message: 'auth.messages.resetPasswordError' } }
   }
 }

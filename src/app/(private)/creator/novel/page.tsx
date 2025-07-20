@@ -236,7 +236,7 @@ export default function NovelListPage() {
                     <span>{t('list.createdLabel')} {formatDate(novel.created_at)}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(novel.status)}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(novel.status || 'draft')}`}>
                       {getStatusLabel(novel.status || 'draft')}
                     </span>
                   </div>

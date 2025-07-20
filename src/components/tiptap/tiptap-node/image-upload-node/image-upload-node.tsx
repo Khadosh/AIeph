@@ -362,17 +362,19 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
       const pos = props.getPos()
       const filename = files[0]?.name.replace(/\.[^/.]+$/, "") || "unknown"
 
-      props.editor
-        .chain()
-        .focus()
-        .deleteRange({ from: pos, to: pos + 1 })
-        .insertContentAt(pos, [
-          {
-            type: "image",
-            attrs: { src: url, alt: filename, title: filename },
-          },
-        ])
-        .run()
+      if (typeof pos === 'number') {
+        props.editor
+          .chain()
+          .focus()
+          .deleteRange({ from: pos, to: pos + 1 })
+          .insertContentAt(pos, [
+            {
+              type: "image",
+              attrs: { src: url, alt: filename, title: filename },
+            },
+          ])
+          .run()
+      }
     }
   }
 

@@ -199,8 +199,8 @@ export default function NovelDetailPage() {
                       <h3 className="text-lg font-semibold text-gray-900">
                         {t('chaptersSection.chapterTitle', { index: chapter.order_index, title: chapter.title })}
                       </h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(chapter.status)}`}>
-                        {getStatusLabel(chapter.status)}
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(chapter.status || 'draft')}`}>
+                        {getStatusLabel(chapter.status || 'draft')}
                       </span>
                     </div>
                     {chapter.summary && (

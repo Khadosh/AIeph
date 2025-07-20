@@ -3,13 +3,14 @@ import { notFound } from 'next/navigation'
 import ChapterEditor from '@/components/chapter-editor/chapter-editor'
 
 interface EditChapterPageProps {
-  params: {
+  params: Promise<{
     novel_id: string
     chapter_id: string
-  }
+  }>
 }
 
 export default async function EditChapterPage({ params }: EditChapterPageProps) {
+  const { novel_id, chapter_id } = await params
   const supabase = await createClient()
   
   // Fetch novel and chapter data
@@ -17,12 +18,12 @@ export default async function EditChapterPage({ params }: EditChapterPageProps) 
     supabase
       .from('novels')
       .select('*')
-      .eq('id', params.novel_id)
+      .eq('id', novel_id)
       .single(),
     supabase
       .from('chapters')
       .select('*')
-      .eq('id', params.chapter_id)
+      .eq('id', chapter_id)
       .single()
   ])
 

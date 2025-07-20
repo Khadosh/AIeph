@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import {NextIntlClientProvider} from 'next-intl';
-import {getLocale} from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
@@ -43,8 +43,8 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
-          <div className="flex flex-col max-h-screen">  
-            <AppHeader />
+            <div className="flex flex-col max-h-screen">
+              <AppHeader />
               <main className="flex-1">{children}</main>
             </div>
           </NextIntlClientProvider>

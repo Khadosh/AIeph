@@ -41,6 +41,12 @@ AI-eph was born to solve this problem, acting as the memory and analyst for your
 * **Consistency Analysis:** Detect potential plot contradictions and inconsistencies
 * **Writing Assistance:** Real-time feedback and writing tips
 
+### 🌐 **Internationalization**
+* **Bilingual Support:** Complete English and Spanish localization
+* **Dynamic Language Switching:** Change languages without page reloads
+* **Comprehensive Translation:** 300+ translation keys covering all UI elements
+* **Editor Localization:** Fully translated TipTap editor components and toolbars
+
 ### 🔐 **Security & Performance**
 * **Secure Authentication:** Supabase-powered user management
 * **Server-Side Rendering:** Optimized performance with Next.js App Router
@@ -53,11 +59,12 @@ AI-eph was born to solve this problem, acting as the memory and analyst for your
 
 This project is built with a modern, performance-focused tech stack:
 
-* **Framework:** [Next.js](https://nextjs.org/) (App Router with Server Components)
+* **Framework:** [Next.js 15](https://nextjs.org/) (App Router with Server Components)
 * **Language:** [TypeScript](https://www.typescriptlang.org/) with strict type checking
 * **Styling:** [Tailwind CSS](https://tailwindcss.com/) with custom design system
 * **Component Library:** [Shadcn/ui](https://ui.shadcn.com/) for consistent UI
 * **Text Editor:** [TipTap](https://tiptap.dev/) for rich text editing
+* **Internationalization:** [next-intl](https://next-intl-docs.vercel.app/) for bilingual support
 * **Backend & Database:** [Supabase](https://supabase.com/) (Auth, PostgreSQL, Real-time)
 * **AI Integration:** [Google AI (Gemini)](https://ai.google.dev/) for intelligent features
 * **Deployment:** [Vercel](https://vercel.com/) for seamless deployment
@@ -103,6 +110,8 @@ Follow these steps to get the project running on your local machine.
     GOOGLE_AI_API_KEY=YOUR_GOOGLE_AI_API_KEY
     ```
 
+    **Note:** The application includes built-in internationalization. The default language is Spanish, but users can switch to English through the UI language selector.
+
 4.  **Run the development server:**
     ```bash
     npm run dev
@@ -125,6 +134,17 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 * [x] Genre selection with autocomplete
 * [x] Real-time statistics and word counting
 * [x] Modern architecture with Server/Client components
+
+### **Recently Completed** ✅
+* [x] **Complete Internationalization (i18n)** - Full bilingual support (English/Spanish)
+  * Dynamic language switching without page reloads
+  * 300+ translation keys covering all UI elements
+  * Tiptap editor components fully internationalized
+  * Centralized status and label translation system
+* [x] **Next.js 15 Compatibility** - Full upgrade to latest Next.js version
+  * Async params handling for dynamic routes
+  * Server/Client component optimization
+  * Enhanced type safety and error handling
 
 ### **In Development** 🚧
 * [ ] AI-powered summary generation

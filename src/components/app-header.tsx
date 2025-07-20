@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { getUser } from "@/actions/auth";
-import LoginDialog from "@/components/ui/login-dialog";
+import AuthDialog from "@/components/ui/auth-dialog";
 import UserMenu from "@/components/ui/user-menu";
 import LanguageToggler from "@/components/language-toggler";
 
@@ -21,7 +21,7 @@ export default async function AppHeader() {
           {
             user
               ? <UserMenu user={user} />
-              : <LoginDialog />
+              : <AuthDialog mode="login" text="Login" />
           }
         </div>
       </div>

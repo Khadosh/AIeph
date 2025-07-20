@@ -6,7 +6,7 @@ import {
   CommandInput,
 } from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
-import { useState, useRef, useCallback, type KeyboardEvent } from "react";
+import { useState, useRef, useCallback, useEffect, type KeyboardEvent } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -40,10 +40,25 @@ export const Autocomplete = ({
   maxItems
 }: AutoCompleteProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const commandRef = useRef<HTMLDivElement>(null);
 
   const [isOpen, setOpen] = useState(false);
   const [selected, setSelected] = useState<Option[]>(value);
   const [inputValue, setInputValue] = useState<string>("");
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (commandRef.current && !commandRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
@@ -66,6 +81,11 @@ export const Autocomplete = ({
             setSelected(newSelected);
             onValueChange?.(newSelected);
             setInputValue("");
+            
+            // Close autocomplete if maxItems is reached
+            if (maxItems && newSelected.length >= maxItems) {
+              setOpen(false);
+            }
           }
         }
       }
@@ -89,6 +109,11 @@ export const Autocomplete = ({
           setSelected(newSelected);
           onValueChange?.(newSelected);
           setInputValue("");
+          
+          // Close autocomplete if maxItems is reached
+          if (maxItems && newSelected.length >= maxItems) {
+            setOpen(false);
+          }
         }
       }
 
@@ -112,6 +137,11 @@ export const Autocomplete = ({
     !selected.find(s => s.value === option.value)
   );
 
+  const isMaxReached = maxItems && selected.length >= maxItems;
+  const dynamicPlaceholder = isMaxReached 
+    ? `Límite alcanzado (${selected.length}/${maxItems})`
+    : placeholder;
+
   return (
     <div className={className}>
       {/* Selected items badges */}
@@ -131,16 +161,20 @@ export const Autocomplete = ({
         </div>
       )}
 
-      <CommandPrimitive onKeyDown={handleKeyDown}>
-        <div className="border rounded-md">
+      <CommandPrimitive ref={commandRef} onKeyDown={handleKeyDown}>
+        <div className={cn(
+          "border rounded-md",
+          isMaxReached && "opacity-60"
+        )}>
           <CommandInput
             ref={inputRef}
             value={inputValue}
             onValueChange={isLoading ? undefined : setInputValue}
             onBlur={handleBlur}
-            onFocus={() => setOpen(true)}
-            placeholder={placeholder}
-            disabled={disabled || (maxItems ? selected.length >= maxItems : false)}
+            onFocus={() => !isMaxReached && setOpen(true)}
+            placeholder={dynamicPlaceholder}
+            disabled={disabled || isMaxReached as boolean}
+            className={cn(isMaxReached && "cursor-not-allowed")}
           />
         </div>
         <div className="relative mt-1">
@@ -192,6 +226,14 @@ export const Autocomplete = ({
           </div>
         </div>
       </CommandPrimitive>
+      
+      {/* Helper text when max items reached */}
+      {isMaxReached && (
+        <div className="text-xs text-muted-foreground mt-1">
+          Máximo de {maxItems} elemento{maxItems !== 1 ? 's' : ''} seleccionado{maxItems !== 1 ? 's' : ''}. 
+          Elimina uno para agregar más.
+        </div>
+      )}
     </div>
   );
 };

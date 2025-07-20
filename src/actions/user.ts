@@ -22,12 +22,18 @@ export async function updateUserMetadata (metadata: UserMetadata) {
 }
 
 export async function getUserMetadata() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-  if (error) {
-    console.error(error);
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error(error);
+      return null;
+    }
+
+    return data.user?.user_metadata;
+  } catch (error) {
+    // Handle AuthSessionMissingError and other auth errors gracefully
+    // This is normal when user is not logged in, so we don't log as error
     return null;
   }
-
-  return data.user?.user_metadata;
 }

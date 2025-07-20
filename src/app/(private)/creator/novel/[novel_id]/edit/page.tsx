@@ -170,7 +170,7 @@ export default function EditNovelPage() {
                 emptyMessage="No se encontraron géneros"
                 value={formData.genre ? [{ value: formData.genre, label: formData.genre }] : []}
                 onValueChange={(selected) => setFormData({ ...formData, genre: selected[0]?.value || '' })}
-                maxItems={1}
+                maxItems={3}
                 className="mt-1"
               />
             </div>

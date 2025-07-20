@@ -3,7 +3,7 @@
 import { Combine, Users, History } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import NextLink from "next/link"
-import LoginDialog from "@/components/ui/login-dialog";
+import AuthDialog from "@/components/ui/auth-dialog";
 import { useTranslations } from "next-intl";
 
 export default function Home() {
@@ -25,9 +25,9 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" asChild>
-                <LoginDialog>
+                <AuthDialog mode="signup">
                   <Button size="lg">{t('cta.primary')}</Button>
-                </LoginDialog>
+                </AuthDialog>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <NextLink href="#features">{t('cta.secondary')}</NextLink>
@@ -99,9 +99,9 @@ export default function Home() {
             </p>
           </div>
           <div className="mx-auto w-full max-w-sm space-y-2">
-            <LoginDialog>
+            <AuthDialog mode="signup">
               <Button size="lg" className="w-full">{t('finalCta.button')}</Button>
-            </LoginDialog>
+            </AuthDialog>
           </div>
         </div>
       </section>

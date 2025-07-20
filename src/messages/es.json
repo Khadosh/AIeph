@@ -47,11 +47,13 @@
     "login": {
       "title": "Bienvenido de vuelta",
       "email": "Correo electrónico",
-      "password": "Contraseña actual",
+      "password": "Contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "submit": "Iniciar Sesión",
-      "noAccount": "¿No tienes cuenta? Regístrate",
-      "termsAndPrivacy": "Términos de Servicio y Política de Privacidad"
+      "submitting": "Iniciando sesión...",
+      "noAccount": "¿No tienes cuenta?",
+      "signUp": "Regístrate",
+      "termsAndPrivacy": "Al continuar, aceptas nuestros Términos de Servicio y Política de Privacidad"
     },
     "signup": {
       "title": "Crear una cuenta",
@@ -60,8 +62,48 @@
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
       "submit": "Crear Cuenta",
-      "hasAccount": "¿Ya tienes cuenta? Inicia sesión",
-      "termsAndPrivacy": "Términos de Servicio y Política de Privacidad"
+      "submitting": "Creando cuenta...",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Inicia sesión",
+      "termsAndPrivacy": "Al continuar, aceptas nuestros Términos de Servicio y Política de Privacidad",
+      "termsLink": "Términos de Servicio",
+      "privacyLink": "Política de Privacidad"
+    },
+    "forgotPassword": {
+      "title": "Recuperar contraseña",
+      "description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+      "email": "Correo electrónico",
+      "submit": "Enviar enlace de recuperación",
+      "submitting": "Enviando...",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "resetPassword": {
+      "title": "Restablecer tu contraseña",
+      "description": "Ingresa tu nueva contraseña a continuación",
+      "newPassword": "Nueva contraseña",
+      "confirmNewPassword": "Confirmar nueva contraseña",
+      "submit": "Actualizar contraseña",
+      "submitting": "Actualizando..."
+    },
+    "messages": {
+      "loginError": "Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.",
+      "loginGenericError": "No se pudo autenticar al usuario. Por favor, verifica tus credenciales.",
+      "signupError": "No se pudo crear el usuario. Por favor, revisa tu correo para instrucciones de verificación o intenta iniciar sesión.",
+      "signupGenericError": "No se pudo crear el usuario. Por favor, inténtalo de nuevo.",
+      "signupSuccess": "Revisa tu correo electrónico para continuar el proceso de registro.",
+      "forgotPasswordError": "No se pudo enviar el correo de recuperación de contraseña. Por favor, inténtalo de nuevo.",
+      "forgotPasswordSuccess": "Correo de recuperación de contraseña enviado. Por favor, revisa tu bandeja de entrada.",
+      "resetPasswordError": "No se pudo actualizar la contraseña. Por favor, inténtalo de nuevo.",
+      "resetPasswordSuccess": "¡Contraseña actualizada exitosamente! Redirigiendo...",
+      "unexpectedError": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
+    },
+    "validation": {
+      "emailRequired": "El correo electrónico es requerido",
+      "emailInvalid": "Por favor, ingresa un correo electrónico válido",
+      "passwordRequired": "La contraseña es requerida",
+      "passwordWeak": "La contraseña debe tener al menos 8 caracteres e incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial",
+      "confirmPasswordRequired": "Confirmar contraseña es requerido",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden"
     },
     "error": {
       "title": "Lo sentimos, algo salió mal"

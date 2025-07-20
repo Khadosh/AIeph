@@ -47,11 +47,13 @@
     "login": {
       "title": "Welcome back",
       "email": "Email",
-      "password": "Current Password",
+      "password": "Password",
       "forgotPassword": "Forgot your password?",
       "submit": "Login",
-      "noAccount": "Don't have an account? Sign up",
-      "termsAndPrivacy": "Terms of Service and Privacy Policy"
+      "submitting": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "termsAndPrivacy": "By clicking continue, you agree to our Terms of Service and Privacy Policy"
     },
     "signup": {
       "title": "Create an account",
@@ -60,8 +62,48 @@
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "submit": "Create Account",
-      "hasAccount": "Already have an account? Login",
-      "termsAndPrivacy": "Terms of Service and Privacy Policy"
+      "submitting": "Creating Account...",
+      "hasAccount": "Already have an account?",
+      "login": "Login",
+      "termsAndPrivacy": "By clicking continue, you agree to our Terms of Service and Privacy Policy",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "Enter your email address and we'll send you a link to reset your password",
+      "email": "Email",
+      "submit": "Send Reset Link",
+      "submitting": "Sending...",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Your Password",
+      "description": "Enter your new password below",
+      "newPassword": "New Password",
+      "confirmNewPassword": "Confirm New Password",
+      "submit": "Update Password",
+      "submitting": "Updating..."
+    },
+    "messages": {
+      "loginError": "Invalid email or password. Please try again.",
+      "loginGenericError": "Could not authenticate user. Please check your credentials.",
+      "signupError": "Could not create user. Please check your email for verification instructions or try logging in.",
+      "signupGenericError": "Could not create user. Please try again.",
+      "signupSuccess": "Check your email to continue the sign-up process.",
+      "forgotPasswordError": "Could not send password reset email. Please try again.",
+      "forgotPasswordSuccess": "Password reset email sent. Please check your inbox.",
+      "resetPasswordError": "Could not update password. Please try again.",
+      "resetPasswordSuccess": "Password updated successfully! Redirecting...",
+      "unexpectedError": "An unexpected error occurred. Please try again."
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordWeak": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      "confirmPasswordRequired": "Confirm password is required",
+      "passwordsDoNotMatch": "Passwords do not match"
     },
     "error": {
       "title": "Sorry, something went wrong"

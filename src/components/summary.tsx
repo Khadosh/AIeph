@@ -5,15 +5,20 @@ import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useTranslations } from 'next-intl';
 
-export default function Resume({ content }: { content: string }) {
-  const [summary, setSummary] = useState<string>("");
+type SummaryProps = {
+  content: string;
+  onChange: (summary: string) => void;
+  summary: string;
+}
+
+export default function Summary({ content, onChange, summary }: SummaryProps) {
   const [generatingSummary, setGeneratingSummary] = useState<boolean>(false);
   const t = useTranslations('editor.summary');
 
   const handleGenerateSummary = async () => {
     setGeneratingSummary(true);
     const response = await generateSummary(content);
-    setSummary(response);
+    onChange(response);
     setGeneratingSummary(false);
   }
 
@@ -33,9 +38,9 @@ export default function Resume({ content }: { content: string }) {
       </div>
       <textarea
         value={summary}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setSummary(e.target.value)}
         placeholder={t('placeholder')}
         className="w-full h-128 resize-none rounded-md border border-gray-300 p-2 text-sm"
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
       />
     </div>
   )

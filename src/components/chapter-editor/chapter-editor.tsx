@@ -11,7 +11,7 @@ import { TextEditor } from '@/components/text-editor/text-editor'
 import Suggestions from '@/components/suggestions'
 import { createClient } from '@/utils/supabase/client'
 import type { Tables, TablesUpdate } from '@/types/supabase'
-import Resume from '../resume'
+import Summary from '@/components/summary'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
@@ -28,7 +28,7 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
   const [title, setTitle] = useState<string>(chapter?.title || "")
   const [authorNotes, setAuthorNotes] = useState<string>(chapter?.author_notes || "")
   const [saving, setSaving] = useState(false)
-
+  const [summary, setSummary] = useState<string>(chapter?.summary || "")
   const router = useRouter()
   const supabase = createClient()
   const t = useTranslations('editor.chapter')
@@ -53,6 +53,7 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
         title: title.trim(),
         content: content,
         author_notes: authorNotes.trim() || null,
+        summary: summary.trim() || null,
         word_count: wordCount,
         reading_time_minutes: readingTime,
         last_edited_at: new Date().toISOString()
@@ -112,7 +113,7 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
       <div className="flex-1 flex min-h-0">
         {/* Left Panel - Summary and Notes */}
         <div className="w-80 border-r border-gray-200 bg-gray-50 flex flex-col">
-          <Resume content={content} />
+          <Summary content={content} onChange={setSummary} summary={summary} />
 
           <div className="p-4 flex-1">
             <Label className="text-sm font-medium mb-3 block">{t('notesLabel')}</Label>

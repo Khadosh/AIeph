@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { Check, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export type Option = Record<"value" | "label", string> & Record<string, string>;
 
@@ -41,6 +42,7 @@ export const Autocomplete = ({
 }: AutoCompleteProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const commandRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations('ui.autocomplete');
 
   const [isOpen, setOpen] = useState(false);
   const [selected, setSelected] = useState<Option[]>(value);
@@ -139,7 +141,7 @@ export const Autocomplete = ({
 
   const isMaxReached = maxItems && selected.length >= maxItems;
   const dynamicPlaceholder = isMaxReached 
-    ? `Límite alcanzado (${selected.length}/${maxItems})`
+    ? t('limitReached', { current: selected.length, max: maxItems })
     : placeholder;
 
   return (
@@ -230,8 +232,10 @@ export const Autocomplete = ({
       {/* Helper text when max items reached */}
       {isMaxReached && (
         <div className="text-xs text-muted-foreground mt-1">
-          Máximo de {maxItems} elemento{maxItems !== 1 ? 's' : ''} seleccionado{maxItems !== 1 ? 's' : ''}. 
-          Elimina uno para agregar más.
+          {maxItems === 1 
+            ? t('maxItemsHelperSingular', { max: maxItems })
+            : t('maxItemsHelperPlural', { max: maxItems })
+          }
         </div>
       )}
     </div>

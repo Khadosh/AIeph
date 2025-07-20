@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Edit, Trash2, BookOpen, Calendar, User } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -10,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Autocomplete } from '@/components/ui/autocomplete'
 import { genres } from '@/constants/genres'
+import { useStatusTranslation } from '@/lib/status-utils'
 
 import { createClient } from '@/utils/supabase/client'
 import type { Database, Tables, TablesInsert } from '@/types/supabase'
@@ -29,6 +31,8 @@ export default function NovelListPage() {
     genre: ''
   })
   
+  const t = useTranslations('app.dashboard.novels')
+  const { getStatusLabel, getStatusColor } = useStatusTranslation()
   const genreOptions = genres.map(genre => ({ value: genre, label: genre }))
   
   const router = useRouter()
@@ -99,19 +103,6 @@ export default function NovelListPage() {
     })
   }
 
-  const getStatusColor = (status: string | null) => {
-    switch (status) {
-      case 'published':
-        return 'bg-green-100 text-green-800'
-      case 'draft':
-        return 'bg-gray-100 text-gray-800'
-      case 'archived':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -124,63 +115,63 @@ export default function NovelListPage() {
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Mis Novelas</h1>
-          <p className="text-gray-600 mt-2">Gestiona tus proyectos de escritura</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('list.title')}</h1>
+          <p className="text-gray-600 mt-2">{t('list.subtitle')}</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
             <Button className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
-              Nueva Novela
+              {t('list.createButton')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Crear Nueva Novela</DialogTitle>
+              <DialogTitle>{t('createForm.title')}</DialogTitle>
               <DialogDescription>
-                Comienza un nuevo proyecto de escritura
+                {t('createForm.subtitle')}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="title">Título</Label>
+                <Label htmlFor="title">{t('createForm.form.title')}</Label>
                 <Input
                   id="title"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Ingresa el título de tu novela"
+                  placeholder={t('createForm.form.titlePlaceholder')}
                 />
               </div>
               <div>
-                <Label htmlFor="genre">Género</Label>
+                <Label htmlFor="genre">{t('createForm.form.genre')}</Label>
                 <Autocomplete
                   options={genreOptions}
-                  placeholder="Selecciona un género..."
-                  emptyMessage="No se encontraron géneros"
+                  placeholder={t('createForm.form.genrePlaceholder')}
+                  emptyMessage={t('createForm.form.genreEmptyMessage')}
                   value={formData.genre ? [{ value: formData.genre, label: formData.genre }] : []}
                   onValueChange={(selected) => setFormData({ ...formData, genre: selected[0]?.value || '' })}
                   maxItems={1}
                   className="mt-1"
                 />
               </div>
-                                <div>
-                    <Label htmlFor="description">Descripción</Label>
-                                    <textarea
+              <div>
+                <Label htmlFor="description">{t('createForm.form.description')}</Label>
+                <textarea
                   id="description"
                   value={formData.description || ''}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Describe brevemente tu historia..."
+                  placeholder={t('createForm.form.descriptionPlaceholder')}
                   rows={3}
                   className="mt-1 flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 />
-                  </div>
+              </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                Cancelar
+                {t('createForm.form.cancel')}
               </Button>
               <Button onClick={handleCreateNovel} disabled={!formData.title}>
-                Crear Novela
+                {t('createForm.form.submit')}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -191,11 +182,11 @@ export default function NovelListPage() {
         <Card className="text-center py-12">
           <CardContent>
             <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No tienes novelas aún</h3>
-            <p className="text-gray-600 mb-4">Comienza creando tu primera novela</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('list.empty.title')}</h3>
+            <p className="text-gray-600 mb-4">{t('list.empty.description')}</p>
             <Button onClick={() => setIsCreateDialogOpen(true)}>
               <Plus className="h-4 w-4 mr-2" />
-              Crear Primera Novela
+              {t('list.empty.action')}
             </Button>
           </CardContent>
         </Card>
@@ -208,7 +199,7 @@ export default function NovelListPage() {
                   <div className="flex-1">
                     <CardTitle className="text-xl mb-2">{novel.title}</CardTitle>
                     <CardDescription className="line-clamp-2">
-                      {novel.description || 'Sin descripción'}
+                      {novel.description || t('list.noDescription')}
                     </CardDescription>
                   </div>
                   <div className="flex gap-2">
@@ -236,17 +227,17 @@ export default function NovelListPage() {
                 <div className="space-y-3">
                   {novel.genre && (
                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <span className="font-medium">Género:</span>
+                      <span className="font-medium">{t('list.genreLabel')}</span>
                       <span>{novel.genre}</span>
                     </div>
                   )}
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Calendar className="h-4 w-4" />
-                    <span>Creada el {formatDate(novel.created_at)}</span>
+                    <span>{t('list.createdLabel')} {formatDate(novel.created_at)}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(novel.status)}`}>
-                      {novel.status || 'draft'}
+                      {getStatusLabel(novel.status || 'draft')}
                     </span>
                   </div>
                   <div className="pt-2">
@@ -255,7 +246,7 @@ export default function NovelListPage() {
                       onClick={() => router.push(`/creator/novel/${novel.id}`)}
                     >
                       <BookOpen className="h-4 w-4 mr-2" />
-                      Ver Capítulos
+                      {t('list.viewChapters')}
                     </Button>
                   </div>
                 </div>
@@ -269,17 +260,17 @@ export default function NovelListPage() {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Eliminar Novela</DialogTitle>
+            <DialogTitle>{t('actions.deleteNovel')}</DialogTitle>
             <DialogDescription>
-              ¿Estás seguro de que quieres eliminar "{selectedNovel?.title}"? Esta acción no se puede deshacer.
+              {t('actions.deleteConfirmation', { title: `"${selectedNovel?.title}"` })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-              Cancelar
+              {t('createForm.form.cancel')}
             </Button>
             <Button variant="destructive" onClick={handleDeleteNovel}>
-              Eliminar
+              {t('actions.delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -5,9 +5,11 @@ import { getUser } from "@/actions/auth";
 import AuthDialog from "@/components/ui/auth-dialog";
 import UserMenu from "@/components/ui/user-menu";
 import LanguageToggler from "@/components/language-toggler";
+import { getTranslations } from 'next-intl/server';
 
 export default async function AppHeader() {
   const user = await getUser();
+  const t = await getTranslations('auth.login');
 
   return (
     <header className="py-2 shadow-sm">
@@ -21,7 +23,7 @@ export default async function AppHeader() {
           {
             user
               ? <UserMenu user={user} />
-              : <AuthDialog mode="login" text="Login" />
+              : <AuthDialog mode="login" text={t('buttonText') || 'Login'} />
           }
         </div>
       </div>

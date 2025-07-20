@@ -46,6 +46,7 @@
   "auth": {
     "login": {
       "title": "Bienvenido de vuelta",
+      "buttonText": "Iniciar Sesión",
       "email": "Correo electrónico",
       "password": "Contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
@@ -109,6 +110,14 @@
       "title": "Lo sentimos, algo salió mal"
     }
   },
+  "ui": {
+    "autocomplete": {
+      "limitReached": "Límite alcanzado ({current}/{max})",
+      "maxItemsHelper": "Máximo de {max} elemento{plural} seleccionado{plural}. Elimina uno para agregar más.",
+      "maxItemsHelperSingular": "Máximo de {max} elemento seleccionado. Elimina uno para agregar más.",
+      "maxItemsHelperPlural": "Máximo de {max} elementos seleccionados. Elimina uno para agregar más."
+    }
+  },
   "app": {
     "dashboard": {
       "title": "Dashboard",
@@ -129,6 +138,7 @@
           "subtitle": "Comienza tu próxima obra maestra",
           "form": {
             "title": "Título de la novela",
+            "titleRequired": "Título *",
             "titlePlaceholder": "Ingresa el título de tu novela",
             "description": "Descripción",
             "descriptionPlaceholder": "Describe brevemente tu novela (opcional)",
@@ -139,10 +149,42 @@
             "statusOptions": {
               "draft": "Borrador",
               "published": "Publicada",
-              "archived": "Archivada"
+              "archived": "Archivada",
+              "completed": "Completada",
+              "inProgress": "En Progreso"
             },
             "submit": "Crear Novela",
+            "submitting": "Creando...",
             "cancel": "Cancelar"
+          }
+        },
+        "list": {
+          "title": "Mis Novelas",
+          "subtitle": "Gestiona tus proyectos de escritura",
+          "createButton": "Nueva Novela",
+          "viewChapters": "Ver Capítulos",
+          "noDescription": "Sin descripción",
+          "genreLabel": "Género:",
+          "createdLabel": "Creada el",
+          "empty": {
+            "title": "No tienes novelas aún",
+            "description": "Comienza creando tu primera novela",
+            "action": "Crear Primera Novela"
+          }
+        },
+        "actions": {
+          "back": "Volver",
+          "delete": "Eliminar",
+          "deleteNovel": "Eliminar Novela",
+          "deleteConfirmation": "¿Estás seguro de que quieres eliminar {title}? Esta acción no se puede deshacer.",
+          "logout": "Cerrar sesión"
+        },
+        "pages": {
+          "new": {
+            "title": "Nueva Novela",
+            "subtitle": "Comienza un nuevo proyecto de escritura",
+            "cardTitle": "Información de la Novela",
+            "cardDescription": "Completa los detalles de tu nuevo proyecto"
           }
         }
       },

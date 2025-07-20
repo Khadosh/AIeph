@@ -46,6 +46,7 @@
   "auth": {
     "login": {
       "title": "Welcome back",
+      "buttonText": "Login",
       "email": "Email",
       "password": "Password",
       "forgotPassword": "Forgot your password?",
@@ -109,6 +110,14 @@
       "title": "Sorry, something went wrong"
     }
   },
+  "ui": {
+    "autocomplete": {
+      "limitReached": "Limit reached ({current}/{max})",
+      "maxItemsHelper": "Maximum of {max} item{plural} selected. Remove one to add more.",
+      "maxItemsHelperSingular": "Maximum of {max} item selected. Remove one to add more.",
+      "maxItemsHelperPlural": "Maximum of {max} items selected. Remove one to add more."
+    }
+  },
   "app": {
     "dashboard": {
       "title": "Dashboard",
@@ -129,6 +138,7 @@
           "subtitle": "Start your next masterpiece",
           "form": {
             "title": "Novel title",
+            "titleRequired": "Title *",
             "titlePlaceholder": "Enter your novel title",
             "description": "Description",
             "descriptionPlaceholder": "Briefly describe your novel (optional)",
@@ -139,10 +149,42 @@
             "statusOptions": {
               "draft": "Draft",
               "published": "Published",
-              "archived": "Archived"
+              "archived": "Archived",
+              "completed": "Completed",
+              "inProgress": "In Progress"
             },
             "submit": "Create Novel",
+            "submitting": "Creating...",
             "cancel": "Cancel"
+          }
+        },
+        "list": {
+          "title": "My Novels",
+          "subtitle": "Manage your writing projects",
+          "createButton": "New Novel",
+          "viewChapters": "View Chapters",
+          "noDescription": "No description",
+          "genreLabel": "Genre:",
+          "createdLabel": "Created on",
+          "empty": {
+            "title": "You don't have any novels yet",
+            "description": "Start creating your first novel",
+            "action": "Create First Novel"
+          }
+        },
+        "actions": {
+          "back": "Back",
+          "delete": "Delete",
+          "deleteNovel": "Delete Novel",
+          "deleteConfirmation": "Are you sure you want to delete {title}? This action cannot be undone.",
+          "logout": "Logout"
+        },
+        "pages": {
+          "new": {
+            "title": "New Novel",
+            "subtitle": "Start a new writing project",
+            "cardTitle": "Novel Information",
+            "cardDescription": "Complete the details of your new project"
           }
         }
       },

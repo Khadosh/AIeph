@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { UserRound, LogOut } from 'lucide-react';
 import { logout } from "@/actions/auth";
+import { useTranslations } from 'next-intl';
 
 
 export default function UserMenu({ user }: { user: SupabaseUser }) {
+  const t = useTranslations('app.dashboard.novels.actions')
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,7 +25,7 @@ export default function UserMenu({ user }: { user: SupabaseUser }) {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={logout}>
           <LogOut className="w-4 h-4" />
-          Logout
+          {t('logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

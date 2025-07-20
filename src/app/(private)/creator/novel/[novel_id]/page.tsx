@@ -9,6 +9,7 @@ import { createClient } from '@/utils/supabase/client'
 import type { Database, Tables } from '@/types/supabase'
 import { useTranslations } from 'next-intl'
 import { useStatusTranslation } from '@/lib/status-utils'
+import { createChapter } from '@/actions/chapter'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
@@ -168,12 +169,12 @@ export default function NovelDetailPage() {
       {/* Chapters Section */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">{t('chaptersSection.title')}</h2>
-        <Button
-          onClick={() => router.push(`/creator/novel/${novel.id}/chapter/new`)}
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          {t('chaptersSection.newChapter')}
-        </Button>
+        <form action={() => createChapter(novel.id)}>
+          <Button type="submit">
+            <Plus className="h-4 w-4 mr-2" />
+            {t('chaptersSection.newChapter')}
+          </Button>
+        </form>
       </div>
 
       {chapters.length === 0 ? (
@@ -182,10 +183,12 @@ export default function NovelDetailPage() {
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('chaptersSection.empty.title')}</h3>
             <p className="text-gray-600 mb-4">{t('chaptersSection.empty.description')}</p>
-            <Button onClick={() => router.push(`/creator/novel/${novel.id}/chapter/new`)}>
-              <Plus className="h-4 w-4 mr-2" />
-              {t('chaptersSection.empty.action')}
-            </Button>
+            <form action={() => createChapter(novel.id)}>
+              <Button type="submit">
+                <Plus className="h-4 w-4 mr-2" />
+                {t('chaptersSection.empty.action')}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       ) : (
@@ -222,7 +225,7 @@ export default function NovelDetailPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => router.push(`/creator/novel/${novel.id}/chapter/${chapter.id}/edit`)}
+                      onClick={() => router.push(`/creator/novel/${novel.id}/chapter/${chapter.id}`)}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>

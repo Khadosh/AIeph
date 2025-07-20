@@ -10,116 +10,65 @@ import { Label } from '@/components/ui/label'
 import { TextEditor } from '@/components/text-editor/text-editor'
 import Suggestions from '@/components/suggestions'
 import { createClient } from '@/utils/supabase/client'
-import type { Tables, TablesInsert, TablesUpdate } from '@/types/supabase'
+import type { Tables, TablesUpdate } from '@/types/supabase'
 import Resume from '../resume'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
-type ChapterInsert = TablesInsert<'chapters'>
 type ChapterUpdate = TablesUpdate<'chapters'>
 
 interface ChapterEditorProps {
-  mode: 'create' | 'edit'
   novel: Novel
-  chapter?: Chapter
+  chapter: Chapter
   onSave?: () => void
 }
 
-export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterEditorProps) {
+export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorProps) {
   const [content, setContent] = useState<string>(chapter?.content || "")
   const [title, setTitle] = useState<string>(chapter?.title || "")
-  const [summary, setSummary] = useState<string>(chapter?.summary || "")
   const [authorNotes, setAuthorNotes] = useState<string>(chapter?.author_notes || "")
   const [saving, setSaving] = useState(false)
-  const [generatingSummary, setGeneratingSummary] = useState(false)
 
   const router = useRouter()
   const supabase = createClient()
   const t = useTranslations('editor.chapter')
-
-  const getNextChapterOrder = async () => {
-    try {
-      // Get the highest order_index and add 1
-      const { data, error } = await supabase
-        .from('chapters')
-        .select('order_index')
-        .eq('novel_id', novel.id)
-        .order('order_index', { ascending: false })
-        .limit(1)
-
-      if (error) throw error
-      return data && data.length > 0 ? data[0].order_index + 1 : 1
-    } catch (error) {
-      console.error('Error getting next chapter order:', error)
-      return 1
-    }
-  }
 
   const calculateWordCount = (text: string) => {
     return text.trim().split(/\s+/).filter(word => word.length > 0).length
   }
 
   const calculateReadingTime = (wordCount: number) => {
-    // Average reading speed: 200 words per minute
     return Math.ceil(wordCount / 200)
   }
 
   const handleSave = async () => {
-    if (!title.trim() || !content.trim()) return
+    if (!title.trim() || !content.trim() || !chapter) return
 
     setSaving(true)
     try {
       const wordCount = calculateWordCount(content)
       const readingTime = calculateReadingTime(wordCount)
 
-      if (mode === 'create') {
-        const orderIndex = await getNextChapterOrder()
-
-        const chapterData: ChapterInsert = {
-          title: title.trim(),
-          content: content,
-          summary: summary.trim() || null,
-          author_notes: authorNotes.trim() || null,
-          novel_id: novel.id,
-          order_index: orderIndex,
-          word_count: wordCount,
-          reading_time_minutes: readingTime,
-          status: 'draft',
-          last_edited_at: new Date().toISOString()
-        }
-
-        const { data, error } = await supabase
-          .from('chapters')
-          .insert([chapterData])
-          .select()
-          .single()
-
-        if (error) throw error
-      } else {
-        if (!chapter) return
-
-        const chapterData: ChapterUpdate = {
-          title: title.trim(),
-          content: content,
-          summary: summary.trim() || null,
-          author_notes: authorNotes.trim() || null,
-          word_count: wordCount,
-          reading_time_minutes: readingTime,
-          last_edited_at: new Date().toISOString()
-        }
-
-        const { error } = await supabase
-          .from('chapters')
-          .update(chapterData)
-          .eq('id', chapter.id)
-
-        if (error) throw error
+      const chapterData: ChapterUpdate = {
+        title: title.trim(),
+        content: content,
+        author_notes: authorNotes.trim() || null,
+        word_count: wordCount,
+        reading_time_minutes: readingTime,
+        last_edited_at: new Date().toISOString()
       }
+
+      const { error } = await supabase
+        .from('chapters')
+        .update(chapterData)
+        .eq('id', chapter.id)
+
+      if (error) throw error
 
       onSave?.()
       router.push(`/creator/novel/${novel.id}`)
     } catch (error) {
-      console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} chapter:`, error)
+      console.error(`Error updating chapter:`, error)
     } finally {
       setSaving(false)
     }
@@ -147,7 +96,7 @@ export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterE
           </div>
           <div className="text-sm text-gray-600">
             {novel.title}
-            {mode === 'edit' && chapter && ` - Capítulo ${chapter.order_index}`}
+            {chapter && ` - Capítulo ${chapter.order_index}`}
           </div>
         </div>
         <Button
@@ -155,7 +104,7 @@ export default function ChapterEditor({ mode, novel, chapter, onSave }: ChapterE
           disabled={!title.trim() || !content.trim() || saving}
         >
           <Save className="h-4 w-4 mr-2" />
-          {saving ? t('saving') : mode === 'create' ? t('create') : t('update')}
+          {saving ? t('saving') : t('update')}
         </Button>
       </div>
 

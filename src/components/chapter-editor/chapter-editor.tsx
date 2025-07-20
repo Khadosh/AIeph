@@ -75,7 +75,7 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
   }
 
   return (
-    <div className="w-full h-[calc(100vh-52px)] flex flex-col overflow-hidden">
+    <div className="w-full h-[calc(100vh-54px)] flex flex-col overflow-hidden">
       {/* Header with title input */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white flex-shrink-0">
         <div className="flex items-center gap-4 flex-1">

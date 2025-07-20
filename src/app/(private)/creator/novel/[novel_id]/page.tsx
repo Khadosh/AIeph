@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { ArrowLeft, Plus, Edit, Trash2, BookOpen, Calendar, Clock, FileText } from 'lucide-react'
+import { ArrowLeft, Plus, Edit, BookOpen, Calendar, Clock, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/utils/supabase/client'
@@ -10,6 +10,7 @@ import type { Database, Tables } from '@/types/supabase'
 import { useTranslations } from 'next-intl'
 import { useStatusTranslation } from '@/lib/status-utils'
 import { createChapter } from '@/actions/chapter'
+import { DeleteChapterDialog } from '@/components/delete-chapter-dialog'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
@@ -236,6 +237,12 @@ export default function NovelDetailPage() {
                     >
                       <BookOpen className="h-4 w-4" />
                     </Button>
+                    <DeleteChapterDialog
+                      chapterId={chapter.id}
+                      novelId={novel.id}
+                      chapterTitle={chapter.title || `Chapter ${chapter.order_index}`}
+                      onSuccess={fetchNovelAndChapters}
+                    />
                   </div>
                 </div>
               </CardContent>

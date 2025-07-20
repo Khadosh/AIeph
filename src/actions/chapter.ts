@@ -48,3 +48,65 @@ export async function createChapter(novelId: string) {
   // Redirect to the new chapter's edit page
   redirect(`/creator/novel/${novelId}/chapter/${data.id}`);
 }
+
+export async function deleteChapter(chapterId: string, novelId: string) {
+  const supabase = await createClient();
+
+  // First, get the chapter to know its order_index
+  const { data: chapterData, error: chapterError } = await supabase
+    .from('chapters')
+    .select('order_index')
+    .eq('id', chapterId)
+    .single();
+
+  if (chapterError) {
+    console.error('Error fetching chapter:', chapterError);
+    return { error: 'Failed to fetch chapter' };
+  }
+
+  // Delete the chapter
+  const { error: deleteError } = await supabase
+    .from('chapters')
+    .delete()
+    .eq('id', chapterId);
+
+  if (deleteError) {
+    console.error('Error deleting chapter:', deleteError);
+    return { error: 'Failed to delete chapter' };
+  }
+
+  // Reorder remaining chapters to fill the gap
+  const { data: remainingChapters, error: reorderError } = await supabase
+    .from('chapters')
+    .select('id, order_index')
+    .eq('novel_id', novelId)
+    .gt('order_index', chapterData.order_index)
+    .order('order_index', { ascending: true });
+
+  if (reorderError) {
+    console.error('Error fetching remaining chapters:', reorderError);
+    return { error: 'Failed to reorder chapters' };
+  }
+
+  // Update order_index for chapters that come after the deleted one
+  if (remainingChapters && remainingChapters.length > 0) {
+    const updates = remainingChapters.map(chapter => ({
+      id: chapter.id,
+      order_index: chapter.order_index - 1
+    }));
+
+    const { error: updateError } = await supabase
+      .from('chapters')
+      .upsert(updates);
+
+    if (updateError) {
+      console.error('Error updating chapter order:', updateError);
+      return { error: 'Failed to reorder chapters' };
+    }
+  }
+
+  // Revalidate the novel page to reflect the changes
+  revalidatePath(`/creator/novel/${novelId}`);
+
+  return { success: true };
+}

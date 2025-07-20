@@ -124,6 +124,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  html {
+    height: 100%;
+  }
+  body {
+    height: 100%;
   }
 }
 

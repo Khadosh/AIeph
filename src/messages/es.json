@@ -308,7 +308,16 @@
               "chapterTitle": "Capítulo {index}: {title}",
               "wordsCount": "{count} palabras",
               "readingTime": "{minutes} min lectura",
-              "lastEdited": "Editado {date}"
+              "lastEdited": "Editado {date}",
+              "delete": {
+                "button": "Eliminar",
+                "dialog": {
+                  "title": "Eliminar Capítulo",
+                  "description": "¿Estás seguro de que quieres eliminar '{title}'? Esta acción no se puede deshacer.",
+                  "cancel": "Cancelar",
+                  "confirm": "Eliminar Capítulo"
+                }
+              }
             }
           }
         }

@@ -35,7 +35,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -43,9 +43,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
-            <div className="flex flex-col max-h-screen">
+            <div className="flex flex-col h-screen">
               <AppHeader />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 overflow-y-auto">{children}</main>
             </div>
           </NextIntlClientProvider>
         </ThemeProvider>

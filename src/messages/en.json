@@ -309,7 +309,16 @@
               "chapterTitle": "Chapter {index}: {title}",
               "wordsCount": "{count} words",
               "readingTime": "{minutes} min read",
-              "lastEdited": "Edited {date}"
+              "lastEdited": "Edited {date}",
+              "delete": {
+                "button": "Delete",
+                "dialog": {
+                  "title": "Delete Chapter",
+                  "description": "Are you sure you want to delete '{title}'? This action cannot be undone.",
+                  "cancel": "Cancel",
+                  "confirm": "Delete Chapter"
+                }
+              }
             }
           }
         }

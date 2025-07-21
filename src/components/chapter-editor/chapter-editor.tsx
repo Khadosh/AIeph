@@ -12,6 +12,7 @@ import Suggestions from '@/components/suggestions'
 import { createClient } from '@/utils/supabase/client'
 import type { Tables, TablesUpdate } from '@/types/supabase'
 import Summary from '@/components/summary'
+import { useAutosave } from '@/hooks/use-autosave'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
@@ -32,6 +33,14 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
   const router = useRouter()
   const supabase = createClient()
   const t = useTranslations('editor.chapter')
+
+  // Autosave on every change
+  useAutosave({
+    content,
+    savedContent: content || "",
+    chapterId: chapter.id,
+    onSaved: setContent
+  })
 
   const calculateWordCount = (text: string) => {
     return text.trim().split(/\s+/).filter(word => word.length > 0).length

@@ -4,6 +4,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { diff_match_patch } from 'diff-match-patch'
 
 export async function createChapter(novelId: string) {
   const supabase = await createClient();
@@ -109,4 +110,46 @@ export async function deleteChapter(chapterId: string, novelId: string) {
   revalidatePath(`/creator/novel/${novelId}`);
 
   return { success: true };
+}
+
+export async function autosaveChapterPatch({
+  chapterId,
+  patch,
+}: {
+  chapterId: string
+  patch: string
+}) {
+  const supabase = await createClient()
+  try {
+    // 1. Leer el capítulo actual
+    const { data: chapter, error: fetchError } = await supabase
+      .from('chapters')
+      .select('content')
+      .eq('id', chapterId)
+      .single()
+    if (fetchError || !chapter) {
+      return { success: false, error: 'No se pudo leer el capítulo' }
+    }
+    const oldContent = chapter.content || ''
+
+    // 2. Aplicar el patch
+    const dmp = new diff_match_patch()
+    const patchObj = dmp.patch_fromText(patch)
+    const [newContent, results] = dmp.patch_apply(patchObj, oldContent)
+    if (!results.every(Boolean)) {
+      return { success: false, error: 'No se pudo aplicar el patch completo' }
+    }
+
+    // 3. Guardar el nuevo contenido
+    const { error: updateError } = await supabase
+      .from('chapters')
+      .update({ content: newContent, last_edited_at: new Date().toISOString() })
+      .eq('id', chapterId)
+    if (updateError) {
+      return { success: false, error: 'No se pudo guardar el capítulo' }
+    }
+    return { success: true }
+  } catch (e) {
+    return { success: false, error: 'Error inesperado' }
+  }
 }

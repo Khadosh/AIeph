@@ -80,8 +80,9 @@ export async function updatePassword(password: string) {
     }
 
     redirect('/creator')
-  } catch (error: unknown) {
-    console.error('Update password error:', error instanceof Error ? error.message : 'Unknown error')
+  } catch {
+    // Handle AuthSessionMissingError and other auth errors gracefully
+    // This is normal when user is not logged in, so we don't log as error
     return { error: { message: 'auth.messages.resetPasswordError' } }
   }
 }
@@ -97,7 +98,7 @@ export async function getUser() {
     }
 
     return data.user
-  } catch (error) {
+  } catch {
     // Handle AuthSessionMissingError and other auth errors gracefully
     // This is normal when user is not logged in, so we don't log as error
     return null

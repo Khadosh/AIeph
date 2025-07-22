@@ -31,7 +31,7 @@ export async function getUserMetadata() {
     }
 
     return data.user?.user_metadata;
-  } catch (error) {
+  } catch {
     // Handle AuthSessionMissingError and other auth errors gracefully
     // This is normal when user is not logged in, so we don't log as error
     return null;

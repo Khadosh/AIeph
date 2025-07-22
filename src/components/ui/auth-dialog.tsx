@@ -32,7 +32,7 @@ export default function AuthDialog({ children, mode, text }: AuthDialogProps) {
         {text || (currentMode === 'login' ? 'Login' : 'Create Account')}
       </Button>
     )
-  }, [children, currentMode]);
+  }, [children, currentMode, text]);
 
   return (
     <Dialog>

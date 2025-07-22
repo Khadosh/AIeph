@@ -76,7 +76,7 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
           </div>
           <div className="text-sm text-gray-600">
             {novel.title}
-            {chapter && ` - Capítulo ${chapter.order_index}`}
+            {chapter && ` - ${t('chapterNumber', { index: chapter.order_index })}`}
           </div>
         </div>
         <SaveStatus saveState={autosaveState.overall} />

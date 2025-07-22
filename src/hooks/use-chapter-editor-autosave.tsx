@@ -1,6 +1,7 @@
 import { useAutosave } from "@/hooks/use-autosave"
 import { ChapterData, AutosaveState } from "@/types/chapter"
 import { useState, useCallback } from "react"
+import { useTranslations } from 'next-intl'
 
 type ChapterEditorAutosaveProps = {
   chapterData: ChapterData
@@ -23,16 +24,17 @@ export default function useChapterEditorAutosave({
   chapterId 
 }: ChapterEditorAutosaveProps): CombinedAutosaveState {
   const [lastSavedTime, setLastSavedTime] = useState<Date | null>(null)
+  const t = useTranslations('editor.chapter')
 
   const handleSaved = useCallback((field: string) => {
     const now = new Date()
     setLastSavedTime(now)
-    console.log(`${field} autosaved successfully at`, now.toLocaleTimeString())
-  }, [])
+    console.log(t('autosave.fieldSaved', { field, time: now.toLocaleTimeString() }))
+  }, [t])
 
   const handleError = useCallback((field: string, error: Error) => {
-    console.error(`Error saving ${field}:`, error.message)
-  }, [])
+    console.error(t('autosave.errorSavingField', { field }), error.message)
+  }, [t])
 
   const contentState = useAutosave({
     field: 'content',

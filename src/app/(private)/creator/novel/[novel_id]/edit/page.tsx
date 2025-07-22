@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Autocomplete } from '@/components/ui/autocomplete'
 import { genres } from '@/constants/genres'
 import { createClient } from '@/utils/supabase/client'
-import type { Database, Tables, TablesUpdate } from '@/types/supabase'
+import type { Tables, TablesUpdate } from '@/types/supabase'
 
 type Novel = Tables<'novels'>
 type NovelUpdate = TablesUpdate<'novels'>

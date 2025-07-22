@@ -133,11 +133,11 @@ export async function autosaveChapterPatch({
     
     if (fetchError) {
       console.error('Database fetch error:', fetchError)
-      return { success: false, error: 'No se pudo leer el capítulo' }
+      return { success: false, error: 'Could not read chapter' }
     }
     
     if (!content) {
-      return { success: false, error: 'Capítulo no encontrado' }
+      return { success: false, error: 'Chapter not found' }
     }
 
     // Use safe field access
@@ -150,12 +150,12 @@ export async function autosaveChapterPatch({
       patchObj = dmp.patch_fromText(patch)
     } catch (patchError) {
       console.error('Patch parsing error:', patchError)
-      return { success: false, error: 'Patch inválido' }
+      return { success: false, error: 'Invalid patch' }
     }
 
     const [newContent, results] = dmp.patch_apply(patchObj, oldContent)
     if (!results.every(Boolean)) {
-      return { success: false, error: 'No se pudo aplicar el patch completo' }
+      return { success: false, error: 'Could not apply complete patch' }
     }
 
     // 3. Guardar el nuevo contenido
@@ -166,7 +166,7 @@ export async function autosaveChapterPatch({
     
     if (updateError) {
       console.error('Database update error:', updateError)
-      return { success: false, error: 'No se pudo guardar el capítulo' }
+      return { success: false, error: 'Could not save chapter' }
     }
     
     return { success: true, data: { field, newLength: newContent.length } }
@@ -174,7 +174,7 @@ export async function autosaveChapterPatch({
     console.error('Unexpected error in autosaveChapterPatch:', e)
     return { 
       success: false, 
-      error: `Error inesperado: ${e instanceof Error ? e.message : 'Desconocido'}` 
+      error: `Unexpected error: ${e instanceof Error ? e.message : 'Unknown'}` 
     }
   }
 }

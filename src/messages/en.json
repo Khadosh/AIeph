@@ -140,7 +140,29 @@
       "create": "Create Chapter",
       "creating": "Creating...",
       "update": "Update Chapter",
-      "updating": "Updating..."
+      "updating": "Updating...",
+      "saved": "Saved",
+      "saveError": "Error saving",
+      "chapterNumber": "Chapter {index}",
+      "autosave": {
+        "saving": "Saving...",
+        "saved": "Saved",
+        "error": "Error saving",
+        "invalidPatch": "Invalid patch generated, skipping save",
+        "patchValidationFailed": "Patch validation failed, skipping save",
+        "autosaveFailed": "Autosave failed (attempt {attempt}):",
+        "sendBeaconError": "Error using sendBeacon:",
+        "fieldSaved": "{field} autosaved successfully at",
+        "errorSavingField": "Error saving {field}:"
+      },
+      "errors": {
+        "couldNotReadChapter": "Could not read chapter",
+        "chapterNotFound": "Chapter not found",
+        "couldNotSaveChapter": "Could not save chapter",
+        "patchInvalid": "Invalid patch",
+        "patchApplyFailed": "Could not apply complete patch",
+        "unexpectedError": "Unexpected error"
+      }
     },
     "textEditor": {
       "placeholder": "Start typing...",

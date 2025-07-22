@@ -73,7 +73,7 @@ export function useAutosave({
           retryCount: attempt
         }))
       } else {
-        const finalError = error instanceof Error ? error : new Error('Error desconocido')
+        const finalError = error instanceof Error ? error : new Error('Unknown error')
         setState({
           status: 'error',
           error: finalError.message,

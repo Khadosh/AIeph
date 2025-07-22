@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { CombinedAutosaveState } from '@/hooks/use-chapter-editor-autosave'
-import { Loader, CloudUpload, RefreshCwOff } from 'lucide-react';
-
+import { Loader, CloudUpload, RefreshCwOff } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface SaveStatusProps {
   saveState: CombinedAutosaveState['overall']
@@ -11,6 +11,7 @@ interface SaveStatusProps {
 export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
   const [visible, setVisible] = useState(true)
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
+  const t = useTranslations('editor.chapter')
 
   useEffect(() => {
     // Clear any existing timeout
@@ -67,7 +68,7 @@ export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
       return (
         <div className={baseClasses}>
           <Loader className="w-3 h-3 mr-1 animate-spin" />
-          Guardando...
+          {t('autosave.saving')}
         </div>
       )
 
@@ -75,7 +76,7 @@ export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
       return (
         <div className={baseClasses}>
           <CloudUpload className="w-3 h-3 mr-1" />
-          Guardado
+          {t('autosave.saved')}
         </div>
       )
 
@@ -83,7 +84,7 @@ export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
       return (
         <div className={`flex items-center text-xs text-red-500 ${className}`}>
           <RefreshCwOff className="w-3 h-3 mr-1" />
-          Error al guardar
+          {t('autosave.error')}
         </div>
       )
 

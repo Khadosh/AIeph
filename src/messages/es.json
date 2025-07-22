@@ -140,7 +140,29 @@
       "create": "Crear Capítulo",
       "creating": "Creando...",
       "update": "Actualizar Capítulo",
-      "updating": "Actualizando..."
+      "updating": "Actualizando...",
+      "saved": "Guardado",
+      "saveError": "Error al guardar",
+      "chapterNumber": "Capítulo {index}",
+      "autosave": {
+        "saving": "Guardando...",
+        "saved": "Guardado",
+        "error": "Error al guardar",
+        "invalidPatch": "Patch inválido generado, omitiendo guardado",
+        "patchValidationFailed": "Validación de patch falló, omitiendo guardado",
+        "autosaveFailed": "Autosave falló (intento {attempt}):",
+        "sendBeaconError": "Error usando sendBeacon:",
+        "fieldSaved": "{field} guardado exitosamente a las",
+        "errorSavingField": "Error guardando {field}:"
+      },
+      "errors": {
+        "couldNotReadChapter": "No se pudo leer el capítulo",
+        "chapterNotFound": "Capítulo no encontrado",
+        "couldNotSaveChapter": "No se pudo guardar el capítulo",
+        "patchInvalid": "Patch inválido",
+        "patchApplyFailed": "No se pudo aplicar el patch completo",
+        "unexpectedError": "Error inesperado"
+      }
     },
     "textEditor": {
       "placeholder": "Empieza a escribir...",

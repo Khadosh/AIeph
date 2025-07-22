@@ -1,14 +1,12 @@
 'use server'
 import { createClient } from '@/utils/supabase/server'
+import { TablesUpdate } from '@/types/supabase'
 
-export async function updateNovel(id: string, data: any) {
+export async function updateNovel(id: string, data: TablesUpdate<'novels'>) {
   const supabase = await createClient()
   const { error } = await supabase
     .from('novels')
-    .update({
-      ...data,
-      updated_at: new Date().toISOString()
-    })
+    .update(data)
     .eq('id', id)
   if (error) throw error
 }

@@ -17,14 +17,12 @@ import { useRouter } from 'next/navigation'
 
 interface DeleteChapterDialogProps {
   chapterId: string
-  novelId: string
   chapterTitle: string
   onSuccess?: () => void
 }
 
 export function DeleteChapterDialog({ 
-  chapterId, 
-  novelId, 
+  chapterId,
   chapterTitle, 
   onSuccess 
 }: DeleteChapterDialogProps) {

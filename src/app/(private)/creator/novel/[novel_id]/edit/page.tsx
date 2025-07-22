@@ -14,7 +14,9 @@ async function NovelEditData({ novelId }: { novelId: string }) {
 }
 
 // Main Server Component
-export default function NovelEditPage({ params }: { params: { novel_id: string } }) {
+export default async function NovelEditPage({ params }: { params: { novel_id: string } }) {
+  const { novel_id } = await params
+  
   return (
     <Suspense fallback={
       <div className="container mx-auto p-6 max-w-7xl">
@@ -23,7 +25,7 @@ export default function NovelEditPage({ params }: { params: { novel_id: string }
         </div>
       </div>
     }>
-      <NovelEditData novelId={params.novel_id} />
+      <NovelEditData novelId={novel_id} />
     </Suspense>
   )
 }

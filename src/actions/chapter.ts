@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { diff_match_patch } from 'diff-match-patch'
 import { ValidChapterField, getChapterFieldValue } from '@/types/chapter'
+import { TablesUpdate } from "@/types/supabase";
 
 export async function createChapter(novelId: string) {
   const supabase = await createClient();
@@ -51,14 +52,11 @@ export async function createChapter(novelId: string) {
   redirect(`/creator/novel/${novelId}/chapter/${data.id}`);
 }
 
-export async function updateChapter(id: string, data: any) {
+export async function updateChapter(id: string, data: TablesUpdate<'chapters'>) {
   const supabase = await createClient()
   const { error } = await supabase
     .from('chapters')
-    .update({
-      ...data,
-      updated_at: new Date().toISOString()
-    })
+    .update(data)
     .eq('id', id)
   if (error) throw error
 }

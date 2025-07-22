@@ -60,6 +60,19 @@ export const fetchNovelWithChapters = async (novelId: string) => {
     .from('novels')
     .select('*, chapters(*)')
     .eq('id', novelId)
+    .order('order_index', { referencedTable: 'chapters', ascending: true })
+    .single()
+
+  return { data, error }
+}
+
+export const fetchNovelWithChapter = async (novelId: string, chapterId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('novels')
+    .select('*, chapters(*)')
+    .eq('id', novelId)
+    .eq('chapters.id', chapterId)
     .single()
 
   return { data, error }

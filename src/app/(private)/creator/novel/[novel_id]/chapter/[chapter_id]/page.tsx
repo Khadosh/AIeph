@@ -1,5 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
-import { notFound } from 'next/navigation'
+import { fetchNovelWithChapter } from '@/lib/data'
 import ChapterEditor from '@/components/chapter-editor/chapter-editor'
 
 interface NewChapterPageProps {
@@ -11,24 +10,9 @@ interface NewChapterPageProps {
 
 export default async function NewChapterPage({ params }: NewChapterPageProps) {
   const { novel_id, chapter_id} = await params
-  const supabase = await createClient()
+  const { data: novel } = await fetchNovelWithChapter(novel_id, chapter_id)
 
-  // Fetch novel data
-  const { data: novel, error } = await supabase
-    .from('novels')
-    .select('*')
-    .eq('id', novel_id)
-    .single()
-
-  const { data: chapter, error: chapterError } = await supabase
-    .from('chapters')
-    .select('*')
-    .eq('id', chapter_id)
-    .single()
-
-  if (error || !novel || chapterError || !chapter) {
-    notFound()
-  }
+  const chapter = novel?.chapters[0]
 
   return <ChapterEditor novel={novel} chapter={chapter} />
 } 

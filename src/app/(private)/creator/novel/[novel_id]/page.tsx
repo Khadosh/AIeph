@@ -3,7 +3,8 @@ import { fetchNovelWithChapters } from '@/lib/data'
 import NovelPageContent from './novel-page-content'
 
 export default async function NovelDetailPage({ params }: { params: { novel_id: string } }) {
-  const { data: novel, error } = await fetchNovelWithChapters(params.novel_id)
+  const { novel_id } = await params
+  const { data: novel, error } = await fetchNovelWithChapters(novel_id)
 
   if (error) {
     return <div>Error loading novel</div>

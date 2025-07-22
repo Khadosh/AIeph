@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Autocomplete } from '@/components/ui/autocomplete'
 import { genres } from '@/constants/genres'
-import { createClient } from '@/utils/supabase/client'
 import type { Tables, TablesUpdate } from '@/types/supabase'
 import { updateNovel, deleteNovel } from '@/actions/novel'
 
@@ -17,7 +16,6 @@ type Novel = Tables<'novels'>
 type NovelUpdate = TablesUpdate<'novels'>
 
 export default function NovelEditPageContent({ novel }: { novel: Novel }) {   
-  const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState<Partial<NovelUpdate>>({
     title: '',
@@ -28,7 +26,6 @@ export default function NovelEditPageContent({ novel }: { novel: Novel }) {
   const genreOptions = genres.map(genre => ({ value: genre, label: genre }))
   
   const router = useRouter()
-  const supabase = createClient()
 
   const handleSave = async () => {
     if (!novel) return
@@ -53,14 +50,6 @@ export default function NovelEditPageContent({ novel }: { novel: Novel }) {
     } catch (error) {
       console.error('Error deleting novel:', error)
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-      </div>
-    )
   }
 
   if (!novel) {

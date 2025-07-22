@@ -190,7 +190,6 @@ export default function NovelPageContent({ novel }: { novel: Novel }) {
                     </Button>
                     <DeleteChapterDialog
                       chapterId={chapter.id}
-                      novelId={novel.id}
                       chapterTitle={chapter.title || `Chapter ${chapter.order_index}`}
                       onSuccess={() => {
                         router.refresh()

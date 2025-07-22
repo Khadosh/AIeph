@@ -208,7 +208,7 @@ export function TextEditor({ content = "", onChange }: TextEditorProps) {
     ],
     content: content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getText())
+      onChange(editor.getHTML())
     }
   })
 

@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { diff_match_patch } from 'diff-match-patch'
+import { ValidChapterField, getChapterFieldValue } from '@/types/chapter'
 
 export async function createChapter(novelId: string) {
   const supabase = await createClient();
@@ -31,7 +32,7 @@ export async function createChapter(novelId: string) {
       {
         novel_id: novelId,
         title: '',
-        content: {},
+        content: '',
         order_index: newOrderIndex,
       },
     ])
@@ -115,26 +116,43 @@ export async function deleteChapter(chapterId: string, novelId: string) {
 export async function autosaveChapterPatch({
   chapterId,
   patch,
+  field,
 }: {
   chapterId: string
   patch: string
+  field: ValidChapterField
 }) {
   const supabase = await createClient()
   try {
     // 1. Leer el capítulo actual
-    const { data: chapter, error: fetchError } = await supabase
+    const { data: content, error: fetchError } = await supabase
       .from('chapters')
-      .select('content')
+      .select(field)
       .eq('id', chapterId)
       .single()
-    if (fetchError || !chapter) {
+    
+    if (fetchError) {
+      console.error('Database fetch error:', fetchError)
       return { success: false, error: 'No se pudo leer el capítulo' }
     }
-    const oldContent = chapter.content || ''
+    
+    if (!content) {
+      return { success: false, error: 'Capítulo no encontrado' }
+    }
+
+    // Use safe field access
+    const oldContent = getChapterFieldValue(content, field)
 
     // 2. Aplicar el patch
     const dmp = new diff_match_patch()
-    const patchObj = dmp.patch_fromText(patch)
+    let patchObj
+    try {
+      patchObj = dmp.patch_fromText(patch)
+    } catch (patchError) {
+      console.error('Patch parsing error:', patchError)
+      return { success: false, error: 'Patch inválido' }
+    }
+
     const [newContent, results] = dmp.patch_apply(patchObj, oldContent)
     if (!results.every(Boolean)) {
       return { success: false, error: 'No se pudo aplicar el patch completo' }
@@ -143,13 +161,20 @@ export async function autosaveChapterPatch({
     // 3. Guardar el nuevo contenido
     const { error: updateError } = await supabase
       .from('chapters')
-      .update({ content: newContent, last_edited_at: new Date().toISOString() })
+      .update({ [field]: newContent })
       .eq('id', chapterId)
+    
     if (updateError) {
+      console.error('Database update error:', updateError)
       return { success: false, error: 'No se pudo guardar el capítulo' }
     }
-    return { success: true }
+    
+    return { success: true, data: { field, newLength: newContent.length } }
   } catch (e) {
-    return { success: false, error: 'Error inesperado' }
+    console.error('Unexpected error in autosaveChapterPatch:', e)
+    return { 
+      success: false, 
+      error: `Error inesperado: ${e instanceof Error ? e.message : 'Desconocido'}` 
+    }
   }
 }

@@ -2,87 +2,57 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Save } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { TextEditor } from '@/components/text-editor/text-editor'
 import Suggestions from '@/components/suggestions'
-import { createClient } from '@/utils/supabase/client'
-import type { Tables, TablesUpdate } from '@/types/supabase'
+import type { Tables } from '@/types/supabase'
 import Summary from '@/components/summary'
-import { useAutosave } from '@/hooks/use-autosave'
+import useChapterEditorAutosave from '../../hooks/use-chapter-editor-autosave'
+import { useSaveMetadata } from '@/hooks/use-save-metadata'
+import { SaveStatus } from '@/components/ui/save-status'
+import { ChapterData } from '@/types/chapter'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
-type ChapterUpdate = TablesUpdate<'chapters'>
 
 interface ChapterEditorProps {
   novel: Novel
   chapter: Chapter
-  onSave?: () => void
 }
 
-export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorProps) {
-  const [content, setContent] = useState<string>(chapter?.content || "")
-  const [title, setTitle] = useState<string>(chapter?.title || "")
-  const [authorNotes, setAuthorNotes] = useState<string>(chapter?.author_notes || "")
-  const [saving, setSaving] = useState(false)
-  const [summary, setSummary] = useState<string>(chapter?.summary || "")
+export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
+  const [chapterData, setChapterData] = useState<ChapterData>({
+    title: chapter?.title || "",
+    content: chapter?.content || "",
+    authorNotes: chapter?.author_notes || "",
+    summary: chapter?.summary || "",
+  })
   const router = useRouter()
-  const supabase = createClient()
   const t = useTranslations('editor.chapter')
 
-  // Autosave on every change
-  useAutosave({
-    content,
-    savedContent: content || "",
+  // Helper function to update any field
+  const updateField = (field: keyof ChapterData, value: string) => {
+    setChapterData(prev => ({ ...prev, [field]: value }))
+  }
+
+  // Autosave for individual fields with improved state management
+  const autosaveState = useChapterEditorAutosave({
+    chapterData: chapterData,
     chapterId: chapter.id,
-    onSaved: setContent
   })
 
-  const calculateWordCount = (text: string) => {
-    return text.trim().split(/\s+/).filter(word => word.length > 0).length
-  }
-
-  const calculateReadingTime = (wordCount: number) => {
-    return Math.ceil(wordCount / 200)
-  }
-
-  const handleSave = async () => {
-    if (!title.trim() || !content.trim() || !chapter) return
-
-    setSaving(true)
-    try {
-      const wordCount = calculateWordCount(content)
-      const readingTime = calculateReadingTime(wordCount)
-
-      const chapterData: ChapterUpdate = {
-        title: title.trim(),
-        content: content,
-        author_notes: authorNotes.trim() || null,
-        summary: summary.trim() || null,
-        word_count: wordCount,
-        reading_time_minutes: readingTime,
-        last_edited_at: new Date().toISOString()
-      }
-
-      const { error } = await supabase
-        .from('chapters')
-        .update(chapterData)
-        .eq('id', chapter.id)
-
-      if (error) throw error
-
-      onSave?.()
-      router.push(`/creator/novel/${novel.id}`)
-    } catch (error) {
-      console.error(`Error updating chapter:`, error)
-    } finally {
-      setSaving(false)
-    }
-  }
+  // Save metadata when leaving the page
+  useSaveMetadata({
+    chapterId: chapter.id,
+    content: chapterData.content,
+    summary: chapterData.summary,
+    title: chapterData.title,
+    authorNotes: chapterData.authorNotes,
+  })
 
   return (
     <div className="w-full h-[calc(100vh-54px)] flex flex-col overflow-hidden">
@@ -98,8 +68,8 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
           </Button>
           <div className="flex-1 max-w-md">
             <Input
-              value={title}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+              value={chapterData.title}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('title', e.target.value)}
               placeholder={t('titlePlaceholder')}
               className="!text-3xl font-semibold border-none shadow-none focus-visible:ring-0 px-0"
             />
@@ -109,26 +79,24 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
             {chapter && ` - Capítulo ${chapter.order_index}`}
           </div>
         </div>
-        <Button
-          onClick={handleSave}
-          disabled={!title.trim() || !content.trim() || saving}
-        >
-          <Save className="h-4 w-4 mr-2" />
-          {saving ? t('saving') : t('update')}
-        </Button>
+        <SaveStatus saveState={autosaveState.overall} />
       </div>
 
       {/* Main content with proper scrolling */}
       <div className="flex-1 flex min-h-0">
         {/* Left Panel - Summary and Notes */}
         <div className="w-80 border-r border-gray-200 bg-gray-50 flex flex-col">
-          <Summary content={content} onChange={setSummary} summary={summary} />
+          <Summary
+            content={chapterData.content}
+            onChange={(summary) => updateField('summary', summary)}
+            summary={chapterData.summary}
+          />
 
           <div className="p-4 flex-1">
             <Label className="text-sm font-medium mb-3 block">{t('notesLabel')}</Label>
             <textarea
-              value={authorNotes}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setAuthorNotes(e.target.value)}
+              value={chapterData.authorNotes}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => updateField('authorNotes', e.target.value)}
               placeholder={t('notesPlaceholder')}
               className="w-full h-32 resize-none rounded-md border border-gray-300 p-2 text-sm"
             />
@@ -138,13 +106,16 @@ export default function ChapterEditor({ novel, chapter, onSave }: ChapterEditorP
         {/* Center - Text Editor */}
         <div className="flex-1 flex flex-col min-h-0">
           <div className="flex-1 min-h-0">
-            <TextEditor content={content} onChange={setContent} />
+            <TextEditor
+              content={chapterData.content}
+              onChange={(content) => updateField('content', content)}
+            />
           </div>
         </div>
 
         {/* Right Panel - AI Suggestions */}
         <div className="w-80 border-l border-gray-200">
-          <Suggestions content={content} />
+          <Suggestions content={chapterData.content} />
         </div>
       </div>
     </div>

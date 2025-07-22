@@ -27,9 +27,8 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
-  const t = useTranslations('auth.login')
+  const t = useTranslations('auth')
   const tValidation = useTranslations('auth.validation')
-  const tMessages = useTranslations('auth.messages')
 
   const validationSchema = z.object({
     email: z.email({ message: tValidation('emailInvalid') }).min(1, { message: tValidation('emailRequired') }),

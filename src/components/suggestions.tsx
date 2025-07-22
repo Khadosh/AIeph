@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { generateFeedback } from "@/actions/ai";
 import { Button } from "./ui/button";
-import { Loader2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function Suggestions({ content }: { content: string }) {
   const [response, setResponse] = useState<string>("");

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft, Plus, Edit, BookOpen, Calendar, Clock, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -24,16 +24,10 @@ export default function NovelDetailPage() {
   const params = useParams()
   const novelId = params.novel_id as string
   const supabase = createClient()
-  const t = useTranslations('app.dashboard.novels.pages.detail')
+  const t = useTranslations('editor.novel')
   const { getStatusLabel, getStatusColor } = useStatusTranslation()
 
-  useEffect(() => {
-    if (novelId) {
-      fetchNovelAndChapters()
-    }
-  }, [novelId])
-
-  const fetchNovelAndChapters = async () => {
+  const fetchNovelAndChapters = useCallback(async () => {
     try {
       // Fetch novel
       const { data: novelData, error: novelError } = await supabase
@@ -60,7 +54,13 @@ export default function NovelDetailPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [novelId, supabase, router])
+
+  useEffect(() => {
+    if (novelId) {
+      fetchNovelAndChapters()
+    }
+  }, [novelId, fetchNovelAndChapters])
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('es-ES', {

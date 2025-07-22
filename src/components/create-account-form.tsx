@@ -74,7 +74,7 @@ export function CreateAccountForm({
           : result.message
         setMessage({ type: 'success', text: successMessage })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: tMessages('unexpectedError') })
     } finally {
       setIsLoading(false)

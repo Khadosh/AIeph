@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Edit, Trash2, BookOpen, Calendar, User } from 'lucide-react'
+import { Plus, Edit, Trash2, BookOpen, Calendar } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,7 +14,7 @@ import { genres } from '@/constants/genres'
 import { useStatusTranslation } from '@/lib/status-utils'
 
 import { createClient } from '@/utils/supabase/client'
-import type { Database, Tables, TablesInsert } from '@/types/supabase'
+import type { Tables, TablesInsert } from '@/types/supabase'
 
 type Novel = Tables<'novels'>
 type NovelInsert = TablesInsert<'novels'>
@@ -38,11 +38,7 @@ export default function NovelListPage() {
   const router = useRouter()
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchNovels()
-  }, [])
-
-  const fetchNovels = async () => {
+  const fetchNovels = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('novels')
@@ -56,7 +52,11 @@ export default function NovelListPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [supabase])
+
+  useEffect(() => {
+    fetchNovels()
+  }, [fetchNovels])
 
   const handleCreateNovel = async () => {
     try {

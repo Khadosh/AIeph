@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -33,13 +33,7 @@ export default function EditNovelPage() {
   const novelId = params.novel_id as string
   const supabase = createClient()
 
-  useEffect(() => {
-    if (novelId) {
-      fetchNovel()
-    }
-  }, [novelId])
-
-  const fetchNovel = async () => {
+  const fetchNovel = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('novels')
@@ -62,7 +56,13 @@ export default function EditNovelPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [novelId, supabase, router])
+
+  useEffect(() => {
+    if (novelId) {
+      fetchNovel()
+    }
+  }, [novelId, fetchNovel])
 
   const handleSave = async () => {
     if (!novel) return

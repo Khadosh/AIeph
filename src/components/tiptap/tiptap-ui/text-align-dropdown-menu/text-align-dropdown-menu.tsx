@@ -1,17 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { isNodeSelection, type Editor } from "@tiptap/react"
-
-// --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
+import { type Editor } from "@tiptap/react"
 
 // --- Icons ---
 import { ChevronDownIcon } from "@/components/tiptap/tiptap-icons/chevron-down-icon"
-import { AlignCenter, AlignLeft, AlignRight, AlignJustify } from "lucide-react"
-
-// --- Lib ---
-import { isNodeInSchema } from "@/lib/tiptap-utils"
+import { AlignCenter } from "lucide-react"
 
 // --- UI Primitives ---
 import type { ButtonProps } from "@/components/tiptap/tiptap-ui-primitive/button"
@@ -27,18 +21,14 @@ import { TextAlignButton } from "../text-align-button"
 
 export interface TextAlignDropdownMenuProps extends Omit<ButtonProps, "type"> {
   editor?: Editor | null
-  hideWhenUnavailable?: boolean
   onOpenChange?: (isOpen: boolean) => void
 }
 
 export function TextAlignDropdownMenu({
-  editor: providedEditor,
-  hideWhenUnavailable = false,
   onOpenChange,
   ...props
 }: TextAlignDropdownMenuProps) {
   const [isOpen, setIsOpen] = React.useState(false)
-  const editor = useTiptapEditor(providedEditor)
 
   const handleOnOpenChange = React.useCallback(
     (open: boolean) => {

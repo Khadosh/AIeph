@@ -100,14 +100,66 @@
     },
     "validation": {
       "emailRequired": "El correo electrónico es requerido",
-      "emailInvalid": "Por favor, ingresa un correo electrónico válido",
+      "emailInvalid": "Por favor ingresa un correo electrónico válido",
       "passwordRequired": "La contraseña es requerida",
-      "passwordWeak": "La contraseña debe tener al menos 8 caracteres e incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial",
-      "confirmPasswordRequired": "Confirmar contraseña es requerido",
+      "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "confirmPasswordRequired": "Por favor confirma tu contraseña",
       "passwordsDoNotMatch": "Las contraseñas no coinciden"
     },
     "error": {
       "title": "Lo sentimos, algo salió mal"
+    }
+  },
+  "creator": {
+    "title": "Panel de Creador",
+    "subtitle": "Elige tu modo de escritura y comienza a crear con asistencia de IA",
+    "aiPowered": "Con IA",
+    "quickActions": {
+      "title": "Acciones Rápidas",
+      "newNovel": "Crear Nueva Novela",
+      "newNovelDesc": "Comienza una nueva novela con asistencia de IA",
+      "continueWriting": "Continuar Escribiendo",
+      "continueWritingDesc": "Reanuda tu último trabajo en progreso"
+    },
+    "writingTypes": {
+      "title": "Tipos de Escritura",
+      "features": "Características de IA Disponibles",
+      "novels": {
+        "title": "Novelas",
+        "description": "Ficción de larga duración con seguimiento de personajes y análisis de trama",
+        "statsLabel": "novelas"
+      },
+      "academic": {
+        "title": "Trabajos Académicos",
+        "description": "Artículos de investigación, ensayos y escritura académica con soporte de citas",
+        "statsLabel": "trabajos"
+      },
+      "articles": {
+        "title": "Artículos y Blogs",
+        "description": "Contenido web, posts de blog y artículos con optimización SEO",
+        "statsLabel": "artículos"
+      },
+      "creative": {
+        "title": "Escritura Creativa",
+        "description": "Poesía, cuentos cortos y piezas creativas con análisis de estilo",
+        "statsLabel": "piezas"
+      },
+      "technical": {
+        "title": "Documentación Técnica",
+        "description": "Documentación, manuales y escritura técnica con ayuda de estructura",
+        "statsLabel": "docs"
+      }
+    },
+    "recentActivity": {
+      "title": "Actividad Reciente",
+      "words": "palabras",
+      "continue": "Continuar"
+    },
+    "stats": {
+      "totalNovels": "Total de Novelas",
+      "totalChapters": "Total de Capítulos",
+      "totalWords": "Total de Palabras",
+      "readingTime": "Tiempo de Lectura"
     }
   },
   "ui": {

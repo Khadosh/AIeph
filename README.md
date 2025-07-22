@@ -34,6 +34,7 @@ AI-eph was born to solve this problem, acting as the memory and analyst for your
 * **Auto-Generated Summaries:** AI-powered chapter summaries with one-click generation
 * **Author Notes:** Personal annotations and writing notes for each chapter
 * **Real-time Statistics:** Live word count and reading time calculations
+* **Autosave Only:** All changes are saved automatically—**no manual save button**. All data mutations (create, update, delete) are handled securely on the server via Server Actions.
 
 ### 🤖 **AI-Powered Features**
 * **Smart Suggestions:** Context-aware writing suggestions and improvements
@@ -52,6 +53,8 @@ AI-eph was born to solve this problem, acting as the memory and analyst for your
 * **Server-Side Rendering:** Optimized performance with Next.js App Router
 * **Modern Architecture:** Clean separation between server and client components
 * **Responsive Design:** Works seamlessly on desktop and mobile devices
+* **Server Actions for All Mutations:** All create, update, and delete operations for novels and chapters are performed via Next.js Server Actions, ensuring security and consistency.
+* **UI Refresh with router.refresh():** After any mutation, the UI is updated using Next.js `router.refresh()` for a seamless experience.
 
 ---
 
@@ -78,6 +81,9 @@ This project is built with a modern, performance-focused tech stack:
 * **Client Components:** Interactive features and state management
 * **Type Safety:** Full TypeScript integration with Supabase types
 * **Component Reusability:** Shared components for create/edit operations
+* **Server Actions for Mutations:** All create, update, and delete operations are handled via Next.js Server Actions, never directly from the client.
+* **No Manual Save:** All chapter and novel edits are autosaved via server actions—there is no manual save button anywhere in the app.
+* **UI Refresh:** After any mutation, the UI is updated using `router.refresh()` to ensure the latest data is always shown.
 
 ### **Database Schema**
 * **Novels:** Title, description, genre, status, metadata
@@ -134,6 +140,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 * [x] Genre selection with autocomplete
 * [x] Real-time statistics and word counting
 * [x] Modern architecture with Server/Client components
+* [x] **All mutations via Server Actions** (create, update, delete for novels and chapters)
+* [x] **Autosave Only** (no manual save, all edits are autosaved via server actions)
 
 ### **Recently Completed** ✅
 * [x] **Complete Internationalization (i18n)** - Full bilingual support (English/Spanish)
@@ -145,6 +153,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
   * Async params handling for dynamic routes
   * Server/Client component optimization
   * Enhanced type safety and error handling
+* [x] **Advanced Autosave System** - Intelligent content saving with performance optimization
+  * Per-field autosave with debouncing and retry logic
+  * Diff-match-patch for efficient content updates
+  * Metadata saving on page exit using `sendBeacon`
+  * Real-time save status indicators
+  * Client-side patch validation and error handling
+* [x] **Modern Creator Dashboard** - Redesigned writing hub for multiple content types
+  * Multi-type writing support (Novels, Academic, Articles, Creative, Technical)
+  * Quick actions for common tasks
+  * Recent activity tracking
+  * Statistics overview with visual indicators
+  * Responsive design with hover animations
+  * AI-powered features badge
 
 ### **In Development** 🚧
 * [ ] AI-powered summary generation
@@ -158,6 +179,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 * [ ] **Phase 3:** Timeline visualization and plot tracking
 * [ ] **Phase 4:** Publishing and sharing capabilities
 * [ ] **Phase 5:** Mobile app and offline support
+* [ ] **Phase 6:** Multi-content type editors (Academic, Articles, Creative, Technical)
 
 ---
 

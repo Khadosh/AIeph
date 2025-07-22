@@ -32,3 +32,35 @@ export const fetchChapters = async (novelId: string) => {
 
   return { data, error }
 }
+
+export const fetchLatestNovels = async (limit: number = 3) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('novels')
+    .select('*, chapters(id)')
+    .order('updated_at', { ascending: false })
+    .limit(limit)
+
+  return { data, error }
+}
+
+export const fetchNovels = async () => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('novels')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  return { data, error }
+}
+
+export const fetchNovelWithChapters = async (novelId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('novels')
+    .select('*, chapters(*)')
+    .eq('id', novelId)
+    .single()
+
+  return { data, error }
+}

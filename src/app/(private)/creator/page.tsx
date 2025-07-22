@@ -1,21 +1,29 @@
-'use client'
+import { Suspense } from 'react'
+import { fetchLatestNovels } from '@/lib/data'
+import CreatorContent from './creator-content'
 
-import Suggestions from "@/components/suggestions";
-import { TextEditor } from "@/components/text-editor/text-editor";
-import { useState } from "react";
+// Server Component for fetching data
+async function CreatorData() {
+  const { data: recentNovels, error } = await fetchLatestNovels(3)
+  
+  if (error) {
+    console.error('Error fetching recent novels:', error)
+  }
 
+  return <CreatorContent recentNovels={recentNovels || []} />
+}
+
+// Main Server Component
 export default function CreatorPage() {
-  const [content, setContent] = useState<string>("");
-
   return (
-    <div className="w-full h-full flex flex-row">
-      <div className="hidden lg:block w-1/4 border-b h-[44px] border-gray-100" />
-      <div className="w-full w-2/3 lg:w-1/2">
-        <TextEditor content={content} onChange={setContent} />
+    <Suspense fallback={
+      <div className="container mx-auto p-6 max-w-7xl">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
       </div>
-      <div className="w-full lg:w-1/4">
-        <Suggestions content={content} />
-      </div>
-    </div>
+    }>
+      <CreatorData />
+    </Suspense>
   )
 }

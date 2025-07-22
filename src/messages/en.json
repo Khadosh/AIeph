@@ -102,12 +102,64 @@
       "emailRequired": "Email is required",
       "emailInvalid": "Please enter a valid email address",
       "passwordRequired": "Password is required",
-      "passwordWeak": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-      "confirmPasswordRequired": "Confirm password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "Please confirm your password",
       "passwordsDoNotMatch": "Passwords do not match"
     },
     "error": {
       "title": "Sorry, something went wrong"
+    }
+  },
+  "creator": {
+    "title": "Creator Dashboard",
+    "subtitle": "Choose your writing mode and start creating with AI assistance",
+    "aiPowered": "AI Powered",
+    "quickActions": {
+      "title": "Quick Actions",
+      "newNovel": "Create New Novel",
+      "newNovelDesc": "Start a new novel with AI assistance",
+      "continueWriting": "Continue Writing",
+      "continueWritingDesc": "Resume your latest work in progress"
+    },
+    "writingTypes": {
+      "title": "Writing Types",
+      "features": "AI Features Available",
+      "novels": {
+        "title": "Novels",
+        "description": "Long-form fiction with character tracking and plot analysis",
+        "statsLabel": "novels"
+      },
+      "academic": {
+        "title": "Academic Papers",
+        "description": "Research papers, essays, and academic writing with citation support",
+        "statsLabel": "papers"
+      },
+      "articles": {
+        "title": "Articles & Blogs",
+        "description": "Web content, blog posts, and articles with SEO optimization",
+        "statsLabel": "articles"
+      },
+      "creative": {
+        "title": "Creative Writing",
+        "description": "Poetry, short stories, and creative pieces with style analysis",
+        "statsLabel": "pieces"
+      },
+      "technical": {
+        "title": "Technical Docs",
+        "description": "Documentation, manuals, and technical writing with structure help",
+        "statsLabel": "docs"
+      }
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "words": "words",
+      "continue": "Continue"
+    },
+    "stats": {
+      "totalNovels": "Total Novels",
+      "totalChapters": "Total Chapters",
+      "totalWords": "Total Words",
+      "readingTime": "Reading Time"
     }
   },
   "ui": {

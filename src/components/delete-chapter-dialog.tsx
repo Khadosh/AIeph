@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { deleteChapter } from '@/actions/chapter'
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 
 interface DeleteChapterDialogProps {
   chapterId: string
@@ -30,17 +31,15 @@ export function DeleteChapterDialog({
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const t = useTranslations('app.dashboard.novels.pages.detail.chaptersSection.delete')
+  const router = useRouter()
 
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
-      const result = await deleteChapter(chapterId, novelId)
-      if (result?.success) {
-        setIsOpen(false)
-        onSuccess?.()
-      } else {
-        console.error('Failed to delete chapter:', result?.error)
-      }
+      await deleteChapter(chapterId)
+      setIsOpen(false)
+      router.refresh()
+      onSuccess?.()
     } catch (error) {
       console.error('Error deleting chapter:', error)
     } finally {

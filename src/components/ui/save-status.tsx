@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { CombinedAutosaveState } from '@/hooks/use-chapter-editor-autosave'
 import { Loader, CloudUpload, RefreshCwOff } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -10,18 +10,15 @@ interface SaveStatusProps {
 
 export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
   const [visible, setVisible] = useState(true)
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const t = useTranslations('editor.chapter')
 
   useEffect(() => {
     // Clear any existing timeout
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-      setTimeoutId(null)
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
     }
-
-    // Declare timeout variable outside switch to avoid scope issues
-    let newTimeoutId: NodeJS.Timeout | null = null
 
     switch (saveState.status) {
       case 'saving':
@@ -30,18 +27,16 @@ export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
         
       case 'saved':
         setVisible(true)
-        newTimeoutId = setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setVisible(false)
         }, 2000) 
-        setTimeoutId(newTimeoutId)
         break
         
       case 'error':
         setVisible(true)
-        newTimeoutId = setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setVisible(false)
         }, 4000)
-        setTimeoutId(newTimeoutId)
         break
         
       case 'idle':
@@ -51,11 +46,11 @@ export function SaveStatus({ saveState, className = '' }: SaveStatusProps) {
     }
 
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId)
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
       }
     }
-  }, [saveState.status, saveState.lastSaved, saveState.hasUnsavedChanges, timeoutId])
+  }, [saveState.status, saveState.lastSaved, saveState.hasUnsavedChanges])
 
   if (!visible || (saveState.status === 'idle' && !saveState.hasUnsavedChanges)) {
     return null

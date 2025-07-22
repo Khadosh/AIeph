@@ -10,9 +10,11 @@ interface NodePreviewProps {
     top: number
     left: number
   }
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>
 }
 
-export const NodePreview: React.FC<NodePreviewProps> = ({ x, y, label, insight, triangle }) => (
+export const NodePreview: React.FC<NodePreviewProps> = ({ x, y, label, insight, triangle, onMouseEnter, onMouseLeave }) => (
   <div
     className="ai-insight-bubble absolute z-20 animate-fade-in"
     style={{
@@ -22,6 +24,8 @@ export const NodePreview: React.FC<NodePreviewProps> = ({ x, y, label, insight, 
       maxWidth: 240,
       pointerEvents: 'auto',
     }}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
   >
     <div className="relative bg-zinc-900/90 border border-emerald-700 text-emerald-200 px-4 py-2 rounded-lg shadow-lg text-sm">
       <span className="font-semibold">{label}:</span> {insight}

@@ -33,7 +33,10 @@ export const StoryGraph: React.FC<StoryGraphProps> = ({ nodes, links, width = 48
     Object.fromEntries(nodes.map(n => [n.id, { x: n.x, y: n.y }]))
   )
   const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null)
+  const [isHoveringPopup, setIsHoveringPopup] = useState(false)
+  const hidePopupTimeout = useRef<NodeJS.Timeout | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   // Drag handler
   function handleDrag(id: string, x: number, y: number) {
@@ -46,22 +49,42 @@ export const StoryGraph: React.FC<StoryGraphProps> = ({ nodes, links, width = 48
     setDraggingNodeId(null)
   }
 
-  // Helper to get node position in screen
-  function getNodeScreenPos(nodeId: string) {
-    const node = nodes.find(n => n.id === nodeId)
-    if (!node || !svgRef.current) return { left: 0, top: 0 }
-    const svg = svgRef.current
-    // Usar SVGPoint para transformar coordenadas SVG a pantalla
-    let point = svg.createSVGPoint()
-    const pos = positions[nodeId] || { x: node.x, y: node.y }
-    point.x = pos.x
-    point.y = pos.y
-    const ctm = svg.getScreenCTM()
-    if (ctm) {
-      const screenPoint = point.matrixTransform(ctm)
-      return { left: screenPoint.x, top: screenPoint.y }
+  // Node radius based on state
+  function getNodeRadius(node: StoryGraphNode) {
+    if (selected === node.id) return 30
+    if (draggingNodeId === node.id) return 28
+    if (hovered === node.id) return 26
+    return 22
+  }
+
+  // Mouse event handlers for tooltip/details
+  function handleNodeHover(id: string | null) {
+    if (hidePopupTimeout.current) {
+      clearTimeout(hidePopupTimeout.current)
+      hidePopupTimeout.current = null
     }
-    return { left: 0, top: 0 }
+    setHovered(id)
+  }
+  function handleNodeClick(id: string) {
+    setSelected(id)
+  }
+  function handleDetailsClose() {
+    setSelected(null)
+  }
+
+  // Hover logic for popup
+  function handlePopupEnter() {
+    if (hidePopupTimeout.current) {
+      clearTimeout(hidePopupTimeout.current)
+      hidePopupTimeout.current = null
+    }
+    setIsHoveringPopup(true)
+  }
+  function handlePopupLeave() {
+    hidePopupTimeout.current = setTimeout(() => {
+      setIsHoveringPopup(false)
+      setHovered(null)
+    }, 100)
   }
 
   // Helper para ajustar la posición del tooltip/ficha para que no se salga de la pantalla
@@ -78,12 +101,30 @@ export const StoryGraph: React.FC<StoryGraphProps> = ({ nodes, links, width = 48
   // Medidas aproximadas de los tooltips
   const previewW = 240, previewH = 80
   const detailsW = 320, detailsH = 180
-  // Radio del nodo (el mayor posible: seleccionado o arrastrado)
-  const nodeRadius = 30
   const separation = 12 // separación visual entre nodo y ficha/tooltip
 
+  // Calcula la posición del nodo relativa al contenedor, considerando el escalado del SVG
+  function getNodeRelativePos(nodeId: string) {
+    const node = nodes.find(n => n.id === nodeId)
+    if (!node || !svgRef.current || !containerRef.current) return { left: 0, top: 0 }
+    const svgRect = svgRef.current.getBoundingClientRect()
+    const containerRect = containerRef.current.getBoundingClientRect()
+    const svgWidth = svgRef.current.width.baseVal.value
+    const svgHeight = svgRef.current.height.baseVal.value
+    const scaleX = svgRect.width / svgWidth
+    const scaleY = svgRect.height / svgHeight
+    const pos = positions[nodeId] || { x: node.x, y: node.y }
+    return {
+      left: svgRect.left - containerRect.left + pos.x * scaleX,
+      top: svgRect.top - containerRect.top + pos.y * scaleY
+    }
+  }
+
+  // Show popup if node is hovered or popup is hovered
+  const showPreview = hovered && !selected && (isHoveringPopup || hovered)
+
   return (
-    <div className="relative w-full flex flex-col items-center justify-center" style={{ minHeight: height }}>
+    <div ref={containerRef} className="relative w-full flex flex-col items-center justify-center" style={{ minHeight: height }}>
       <svg
         ref={svgRef}
         width={width}
@@ -140,30 +181,39 @@ export const StoryGraph: React.FC<StoryGraphProps> = ({ nodes, links, width = 48
               active={isActive}
               selected={isSelected}
               draggingNodeId={draggingNodeId}
-              onHover={setHovered}
-              onClick={setSelected}
+              onHover={handleNodeHover}
+              onClick={handleNodeClick}
               onDrag={handleDrag}
               onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
+              onMouseEnter={() => handleNodeHover(node.id)}
+              onMouseLeave={() => {
+                hidePopupTimeout.current = setTimeout(() => {
+                  setHovered(null)
+                }, 100)
+              }}
             />
           )
         })}
       </svg>
       {/* Preview on hover (si no está seleccionado) */}
-      {hovered && !selected && (() => {
+      {showPreview && (() => {
         const node = nodes.find(n => n.id === hovered)
         if (!node) return null
-        const pos = svgRef.current ? getNodeScreenPos(node.id) : { left: 240, top: 170 }
-        // Tooltip pegado al borde derecho y centrado verticalmente respecto al nodo
-        let x = pos.left + nodeRadius + separation
-        let y = pos.top - (previewH / 2)
+        const pos = getNodeRelativePos(node.id)
+        const nodeRadius = getNodeRadius(node)
+        // Centra el tooltip horizontalmente y lo posiciona debajo del nodo
+        let x = pos.left - (previewW / 2)
+        let y = pos.top + nodeRadius + separation
         const adj = adjustPosition(x, y, previewW, previewH)
         return (
           <NodePreview
-            x={adj.x - 420}
-            y={adj.y - 250}
+            x={adj.x}
+            y={adj.y}
             label={node.label}
             insight={node.insight}
+            onMouseEnter={handlePopupEnter}
+            onMouseLeave={handlePopupLeave}
           />
         )
       })()}
@@ -171,21 +221,23 @@ export const StoryGraph: React.FC<StoryGraphProps> = ({ nodes, links, width = 48
       {selected && (() => {
         const node = nodes.find(n => n.id === selected)
         if (!node) return null
-        const pos = svgRef.current ? getNodeScreenPos(node.id) : { left: 240, top: 170 }
-        // Ficha pegada al borde derecho y centrada verticalmente respecto al nodo
-        let x = pos.left + nodeRadius + separation
-        let y = pos.top - (detailsH / 2)
+        const pos = getNodeRelativePos(node.id)
+        const nodeRadius = getNodeRadius(node)
+        // Centra el tooltip horizontalmente y lo posiciona debajo del nodo
+        let x = pos.left - (detailsW / 2)
+        let y = pos.top + nodeRadius + separation
         const adj = adjustPosition(x, y, detailsW, detailsH)
         return (
           <NodeDetails
-            x={adj.x - 460}
-            y={adj.y - 195}
+            x={adj.x}
+            y={adj.y}
             label={node.label}
             insight={node.insight}
-            onClose={() => setSelected(null)}
+            onClose={handleDetailsClose}
           />
         )
       })()}
     </div>
   )
-} 
+}
+ 

@@ -115,7 +115,6 @@ export default function CreatorContent({ recentNovels }: CreatorContentProps) {
   ]
 
   const latestNovel = recentNovels[0]
-  console.log(latestNovel.chapters)
   const latestChapter = latestNovel?.chapters?.sort((a, b) => new Date(b.updated_at || '').getTime() - new Date(a.updated_at || '').getTime())[0]
 
   const quickActions = [

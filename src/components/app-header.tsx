@@ -14,7 +14,7 @@ export default async function AppHeader() {
 
   return (
     <header className="py-2 border-b border-gray-200 shadow-sm bg-background ">
-      <div className="flex items-center justify-between mx-auto max-w-6xl">
+      <div className="flex items-center justify-between mx-20">
         <div className="flex items-center gap-2">
           <Image src="/favicon.svg" alt="AIeph" width={32} height={32} />
           <h2 className="text-2xl font-bold">AIeph</h2>

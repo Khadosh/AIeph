@@ -352,7 +352,8 @@
           "delete": "Delete",
           "deleteNovel": "Delete Novel",
           "deleteConfirmation": "Are you sure you want to delete {title}? This action cannot be undone.",
-          "logout": "Logout"
+          "logout": "Logout",
+          "creatorStudio": "Your Studio"
         },
         "pages": {
           "new": {

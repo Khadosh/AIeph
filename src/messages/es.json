@@ -351,7 +351,8 @@
           "delete": "Eliminar",
           "deleteNovel": "Eliminar Novela",
           "deleteConfirmation": "¿Estás seguro de que quieres eliminar {title}? Esta acción no se puede deshacer.",
-          "logout": "Cerrar sesión"
+          "logout": "Cerrar sesión",
+          "creatorStudio": "Tu estudio"
         },
         "pages": {
           "new": {

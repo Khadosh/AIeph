@@ -15,6 +15,7 @@ import useChapterEditorAutosave from '../../hooks/use-chapter-editor-autosave'
 import { useSaveMetadata } from '@/hooks/use-save-metadata'
 import { SaveStatus } from '@/components/ui/save-status'
 import { ChapterData } from '@/types/chapter'
+import { NovelWithChapters } from '@/types/novel'
 
 type Novel = Tables<'novels'>
 type Chapter = Tables<'chapters'>
@@ -87,6 +88,8 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
         {/* Left Panel - Summary and Notes */}
         <div className="w-80 border-r border-gray-200 bg-gray-50 flex flex-col">
           <Summary
+            novel={novel as NovelWithChapters}
+            chapter={chapter}
             content={chapterData.content}
             onChange={(summary) => updateField('summary', summary)}
             summary={chapterData.summary}

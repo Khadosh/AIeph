@@ -4,20 +4,24 @@ import { Label } from "./ui/label";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useTranslations } from 'next-intl';
+import { Tables } from "@/types/supabase";
+import { NovelWithChapters } from "@/types/novel";
 
 type SummaryProps = {
+  novel: NovelWithChapters;
+  chapter: Tables<'chapters'>;
   content: string;
   onChange: (summary: string) => void;
   summary: string;
 }
 
-export default function Summary({ content, onChange, summary }: SummaryProps) {
+export default function Summary({ novel, chapter, content, onChange, summary }: SummaryProps) {
   const [generatingSummary, setGeneratingSummary] = useState<boolean>(false);
   const t = useTranslations('editor.summary');
 
   const handleGenerateSummary = async () => {
     setGeneratingSummary(true);
-    const response = await generateSummary(content);
+    const response = await generateSummary(novel, chapter, content);
     onChange(response);
     setGeneratingSummary(false);
   }

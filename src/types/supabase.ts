@@ -80,6 +80,207 @@ export type Database = {
           },
         ]
       }
+      character_relations: {
+        Row: {
+          character_a_id: string | null
+          character_b_id: string | null
+          context: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          summary: string | null
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          character_a_id?: string | null
+          character_b_id?: string | null
+          context?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          summary?: string | null
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          character_a_id?: string | null
+          character_b_id?: string | null
+          context?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          summary?: string | null
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_relations_character_a_id_fkey"
+            columns: ["character_a_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_relations_character_b_id_fkey"
+            columns: ["character_b_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      characters: {
+        Row: {
+          created_at: string | null
+          id: string
+          image: string | null
+          metadata: Json | null
+          name: string
+          novel_id: string
+          summary: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          image?: string | null
+          metadata?: Json | null
+          name: string
+          novel_id: string
+          summary?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          image?: string | null
+          metadata?: Json | null
+          name?: string
+          novel_id?: string
+          summary?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "characters_novel_id_fkey"
+            columns: ["novel_id"]
+            isOneToOne: false
+            referencedRelation: "novel_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "characters_novel_id_fkey"
+            columns: ["novel_id"]
+            isOneToOne: false
+            referencedRelation: "novels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_characters: {
+        Row: {
+          character_id: string
+          event_id: string
+        }
+        Insert: {
+          character_id: string
+          event_id: string
+        }
+        Update: {
+          character_id?: string
+          event_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_characters_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_characters_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          chapter_id: string | null
+          created_at: string | null
+          date: string | null
+          id: string
+          metadata: Json | null
+          novel_id: string
+          summary: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          chapter_id?: string | null
+          created_at?: string | null
+          date?: string | null
+          id?: string
+          metadata?: Json | null
+          novel_id: string
+          summary?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          chapter_id?: string | null
+          created_at?: string | null
+          date?: string | null
+          id?: string
+          metadata?: Json | null
+          novel_id?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters_ordered"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "public_chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_novel_id_fkey"
+            columns: ["novel_id"]
+            isOneToOne: false
+            referencedRelation: "novel_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_novel_id_fkey"
+            columns: ["novel_id"]
+            isOneToOne: false
+            referencedRelation: "novels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       novels: {
         Row: {
           created_at: string

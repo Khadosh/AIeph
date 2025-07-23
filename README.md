@@ -186,3 +186,39 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 ## 📜 License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+## Supabase: Desarrollo local y migraciones
+
+Para trabajar con Supabase en local y gestionar migraciones, sigue estos pasos:
+
+1. **Iniciar Supabase localmente (requiere Docker):**
+   ```sh
+   npx supabase start
+   ```
+   Esto levanta una instancia local de Supabase usando Docker.
+
+2. **Vincular tu proyecto local con el proyecto de Supabase Cloud:**
+   ```sh
+   npx supabase link --project-ref <project-id>
+   ```
+   Reemplaza `<project-id>` por el ID de tu proyecto en Supabase (lo encuentras en la dashboard web).
+
+3. **Crear una nueva migración:**
+   ```sh
+   npx supabase migration new <migration-name>
+   ```
+   Esto crea un archivo de migración SQL en la carpeta `supabase/migrations`.
+
+4. **Aplicar las migraciones a la base de datos local:**
+   ```sh
+   npx supabase db push
+   ```
+   Esto ejecuta todas las migraciones pendientes en tu base local.
+
+**Notas:**
+- Asegúrate de tener Docker instalado y corriendo para usar Supabase local.
+- Si necesitas resetear la base local y aplicar todas las migraciones desde cero:
+  ```sh
+  npx supabase db reset
+  ```
+- Consulta la [documentación oficial de Supabase](https://supabase.com/docs/guides/cli) para más detalles y comandos avanzados.

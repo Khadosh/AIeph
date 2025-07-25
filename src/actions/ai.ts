@@ -129,59 +129,177 @@ async function generateMagic(
   currentChapter: Tables<'chapters'>,
   userText: string
 ) {
-  // 1. Filtrar eventos y relaciones hasta el capítulo actual
+  // 1. Filtrar datos hasta el capítulo actual (inclusive)
   const currentOrder = currentChapter.order_index;
 
-  const characters = novel.characters;
-  const events = novel.events.filter(e => {
-    const ch = novel.chapters.find(c => c.id === e.chapter_id);
-    return ch && ch.order_index <= currentOrder;
-  });
-  const relations = novel.character_relations.filter(r => {
-    const ch = novel.chapters.find(c => c.id === r.chapter_id);
-    return ch && ch.order_index <= currentOrder;
-  });
+  // Obtener todos los personajes de la novela
+  const allCharacters = novel.characters || [];
+  
+  // Filtrar eventos hasta el capítulo actual
+  const relevantEvents = novel.events?.filter(event => {
+    if (!event.chapter_id) return false;
+    const eventChapter = novel.chapters?.find(c => c.id === event.chapter_id);
+    return eventChapter && eventChapter.order_index <= currentOrder;
+  }) || [];
 
-  // 2. Armar el contexto narrativo
+  // Filtrar relaciones hasta el capítulo actual  
+  const relevantRelations = novel.character_relations?.filter(relation => {
+    if (!relation.chapter_id) return false;
+    const relationChapter = novel.chapters?.find(c => c.id === relation.chapter_id);
+    return relationChapter && relationChapter.order_index <= currentOrder;
+  }) || [];
+
+  // 2. Obtener contexto de capítulos anteriores
+  const previousChapters = novel.chapters
+    ?.filter(ch => ch.order_index < currentOrder && ch.summary)
+    ?.sort((a, b) => a.order_index - b.order_index)
+    ?.map(ch => ({
+      order: ch.order_index,
+      title: ch.title,
+      summary: ch.summary
+    })) || [];
+
+  // 3. Crear contexto más rico y estructurado
   const contextString = `
-Contexto narrativo hasta ahora:
-Personajes existentes:
-${JSON.stringify(characters, null, 2)}
+CONTEXTO NARRATIVO DE LA NOVELA "${novel.title}":
 
-Eventos existentes:
-${JSON.stringify(events, null, 2)}
+=== CAPÍTULOS ANTERIORES ===
+${previousChapters.map(ch => 
+  `Capítulo ${ch.order}: ${ch.title}\n${ch.summary || 'Sin resumen'}`
+).join('\n\n') || 'No hay capítulos anteriores'}
 
-Relaciones existentes:
-${JSON.stringify(relations, null, 2)}
+=== PERSONAJES EXISTENTES (${allCharacters.length}) ===
+${allCharacters.map(char => 
+  `• ${char.name}: ${char.summary || 'Sin descripción'}`
+).join('\n') || 'No hay personajes registrados'}
+
+=== EVENTOS REGISTRADOS (${relevantEvents.length}) ===
+${relevantEvents.map(event => 
+  `• ${event.title}: ${event.summary || 'Sin descripción'}`
+).join('\n') || 'No hay eventos registrados'}
+
+=== RELACIONES ENTRE PERSONAJES (${relevantRelations.length}) ===
+${relevantRelations.map(rel => {
+  const charA = allCharacters.find(c => c.id === rel.character_a_id);
+  const charB = allCharacters.find(c => c.id === rel.character_b_id);
+  return `• ${charA?.name || 'Desconocido'} ↔ ${charB?.name || 'Desconocido'} (${rel.type}): ${rel.summary || 'Sin descripción'}`;
+}).join('\n') || 'No hay relaciones registradas'}
+
+=== ESTADÍSTICAS ===
+• Capítulo actual: ${currentOrder}
+• Total de capítulos: ${novel.chapters?.length || 0}
+• Personajes únicos: ${allCharacters.length}
+• Eventos hasta ahora: ${relevantEvents.length}
+• Relaciones establecidas: ${relevantRelations.length}
 `;
 
-  // 3. Armar el prompt
+  // 4. Crear prompt mejorado con instrucciones más específicas
   const prompt = `
-Eres un editor profesional y un analista de narrativas.
-Tu tarea es analizar el texto de un capítulo de novela y extraer información relevante para la deducción mágica.
+Eres un editor profesional especializado en análisis narrativo y construcción de mundos ficticios.
 
-Antes de analizar, revisa el contexto narrativo de la novela hasta este capítulo.
-NO repitas personajes, eventos o relaciones que ya existan en el contexto.
-Si detectas ampliaciones o cambios en personajes/eventos/relaciones existentes, indícalo claramente en el JSON.
+INSTRUCCIONES PRINCIPALES:
+1. Analiza el texto del capítulo actual considerando TODO el contexto narrativo previo
+2. Identifica ÚNICAMENTE elementos nuevos o ampliaciones significativas de elementos existentes
+3. NO repitas información que ya esté registrada en el contexto
+4. Prioriza coherencia narrativa y consistencia con la historia establecida
+5. Asigna niveles de confianza basados en la claridad de la evidencia textual
 
 ${contextString}
 
-Analiza el siguiente texto de capítulo y sugiere SOLO nuevos personajes, eventos y relaciones, o ampliaciones de los existentes.
-Devuelve la información en formato JSON con la siguiente estructura:
+REGLAS DE ANÁLISIS:
+• PERSONAJES: Solo sugiere personajes nuevos con nombre propio o personajes existentes con nueva información significativa
+• EVENTOS: Solo eventos con impacto narrativo claro, evita acciones menores o rutinarias  
+• RELACIONES: Solo relaciones nuevas o cambios importantes en relaciones existentes
+
+Analiza el siguiente texto del capítulo ${currentOrder} y extrae sugerencias siguiendo la estructura JSON exacta:
 {
-  "characters": [ ... ],
-  "events": [ ... ],
-  "relationships": [ ... ]
+  "personajes": [
+    {
+      "id": "unique-id",
+      "name": "Nombre del personaje",
+      "description": "Descripción detallada",
+      "context": "Fragmento de texto donde aparece",
+      "confidence": 0.9,
+      "isNew": true,
+      "existingCharacterId": null
+    }
+  ],
+  "eventos": [
+    {
+      "id": "unique-id",
+      "title": "Título del evento",
+      "description": "Descripción del evento",
+      "context": "Fragmento de texto relevante",
+      "confidence": 0.8,
+      "involvedCharacters": ["nombre1", "nombre2"],
+      "date": "fecha si se menciona"
+    }
+  ],
+  "relaciones": [
+    {
+      "id": "unique-id",
+      "characterAId": "id-personaje-a",
+      "characterBId": "id-personaje-b", 
+      "characterAName": "Nombre A",
+      "characterBName": "Nombre B",
+      "type": "tipo de relación",
+      "description": "Descripción de la relación",
+      "context": "Fragmento de texto donde se evidencia",
+      "confidence": 0.7
+    }
+  ]
 }
 
-Texto a analizar:
----
+CRITERIOS DE CONFIANZA:
+• 0.9-1.0: Información explícita y clara en el texto
+• 0.7-0.8: Información implícita pero bien fundamentada
+• 0.5-0.6: Información inferida con evidencia moderada
+• 0.3-0.4: Información especulativa con poca evidencia
+• Descarta sugerencias con confianza < 0.3
+
+IMPORTANTE: 
+- Usa IDs únicos con formato UUID válido (genera UUIDs reales o usa crypto.randomUUID())
+- Para personajes existentes, usa "isNew": false y el UUID real del "existingCharacterId" de la base de datos
+- En "context" incluye máximo 2-3 oraciones específicas donde aparece la evidencia
+- Si no hay elementos nuevos suficientemente claros, devuelve arrays vacíos
+- NUNCA uses IDs descriptivos como "char_maria" - siempre UUIDs válidos
+
+=== TEXTO DEL CAPÍTULO ${currentOrder} A ANALIZAR ===
 ${userText}
----
 `;
 
   // 4. Llamar a la IA
   const response = await generateOutput(prompt, true);
+  
+  // 5. Post-procesar la respuesta para generar UUIDs válidos
+  if (response && !response.error) {
+    try {
+      // Generar UUIDs válidos para todas las sugerencias
+      if (response.personajes) {
+        response.personajes = response.personajes.map((char: any) => ({
+          ...char,
+          id: crypto.randomUUID()
+        }));
+      }
+      if (response.eventos) {
+        response.eventos = response.eventos.map((event: any) => ({
+          ...event,
+          id: crypto.randomUUID()
+        }));
+      }
+      if (response.relaciones) {
+        response.relaciones = response.relaciones.map((rel: any) => ({
+          ...rel,
+          id: crypto.randomUUID(),
+          characterAId: rel.characterAId || crypto.randomUUID(),
+          characterBId: rel.characterBId || crypto.randomUUID()
+        }));
+      }
+    } catch (error) {
+      console.error('Error post-processing AI response:', error);
+    }
+  }
+  
   return response;
 }
 

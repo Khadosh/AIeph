@@ -6,7 +6,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { diff_match_patch } from 'diff-match-patch'
 import { ValidChapterField, getChapterFieldValue } from '@/types/chapter'
-import { TablesUpdate } from "@/types/supabase";
+import { TablesUpdate, TablesInsert } from "@/types/supabase";
+import { CharacterSuggestion, EventSuggestion, RelationSuggestion } from '@/types/magic-deduction';
 
 export async function createChapter(novelId: string) {
   const supabase = await createClient();
@@ -133,5 +134,154 @@ export async function autosaveChapterPatch({
       success: false, 
       error: `Unexpected error: ${e instanceof Error ? e.message : 'Unknown'}` 
     }
+  }
+}
+
+export async function acceptCharacterSuggestion(
+  novelId: string,
+  chapterId: string,
+  suggestion: CharacterSuggestion
+) {
+  const supabase = await createClient()
+  
+  try {
+    if (suggestion.isNew) {
+      // Crear nuevo personaje
+      const { data, error } = await supabase
+        .from('characters')
+        .insert({
+          name: suggestion.name,
+          summary: suggestion.description,
+          novel_id: novelId,
+        })
+        .select('id')
+        .single()
+      
+      if (error) throw error
+      return { success: true, characterId: data.id }
+    } else {
+      // Actualizar personaje existente si tiene existingCharacterId
+      if (!suggestion.existingCharacterId) {
+        throw new Error('Missing existingCharacterId for existing character')
+      }
+      
+      const { error } = await supabase
+        .from('characters')
+        .update({ summary: suggestion.description })
+        .eq('id', suggestion.existingCharacterId)
+      
+      if (error) throw error
+      return { success: true, characterId: suggestion.existingCharacterId }
+    }
+  } catch (error) {
+    console.error('Error accepting character suggestion:', error)
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+  }
+}
+
+export async function acceptEventSuggestion(
+  novelId: string,
+  chapterId: string,
+  suggestion: EventSuggestion
+) {
+  const supabase = await createClient()
+  
+  try {
+    const { data, error } = await supabase
+      .from('events')
+      .insert({
+        title: suggestion.title,
+        summary: suggestion.description,
+        novel_id: novelId,
+        chapter_id: chapterId,
+        date: suggestion.date || null,
+      })
+      .select('id')
+      .single()
+    
+    if (error) throw error
+    
+    // Si hay personajes involucrados, crear las relaciones
+    if (suggestion.involvedCharacters && suggestion.involvedCharacters.length > 0) {
+      // Buscar los IDs de los personajes por nombre
+      const { data: characters, error: charactersError } = await supabase
+        .from('characters')
+        .select('id, name')
+        .eq('novel_id', novelId)
+        .in('name', suggestion.involvedCharacters)
+      
+      if (charactersError) {
+        console.error('Error finding characters:', charactersError)
+      } else if (characters && characters.length > 0) {
+        const eventCharacters = characters.map(char => ({
+          event_id: data.id,
+          character_id: char.id
+        }))
+        
+        const { error: insertError } = await supabase
+          .from('event_characters')
+          .insert(eventCharacters)
+          
+        if (insertError) {
+          console.error('Error inserting event_characters:', insertError)
+        } else {
+          console.log(`Inserted ${eventCharacters.length} event_characters relations`)
+        }
+      } else {
+        console.log('No matching characters found for:', suggestion.involvedCharacters)
+      }
+    }
+    
+    return { success: true, eventId: data.id }
+  } catch (error) {
+    console.error('Error accepting event suggestion:', error)
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+  }
+}
+
+export async function acceptRelationSuggestion(
+  novelId: string,
+  chapterId: string,
+  suggestion: RelationSuggestion
+) {
+  const supabase = await createClient()
+  
+  try {
+    // Buscar los IDs de los personajes por nombre
+    const { data: characters } = await supabase
+      .from('characters')
+      .select('id, name')
+      .eq('novel_id', novelId)
+      .in('name', [suggestion.characterAName, suggestion.characterBName])
+    
+    if (!characters || characters.length < 2) {
+      throw new Error('Could not find both characters for the relationship')
+    }
+    
+    const charA = characters.find(c => c.name === suggestion.characterAName)
+    const charB = characters.find(c => c.name === suggestion.characterBName)
+    
+    if (!charA || !charB) {
+      throw new Error('Could not match character names to database records')
+    }
+    
+    const { data, error } = await supabase
+      .from('character_relations')
+      .insert({
+        character_a_id: charA.id,
+        character_b_id: charB.id,
+        type: suggestion.type,
+        summary: suggestion.description,
+        context: suggestion.context,
+        chapter_id: chapterId,
+      })
+      .select('id')
+      .single()
+    
+    if (error) throw error
+    return { success: true, relationId: data.id }
+  } catch (error) {
+    console.error('Error accepting relation suggestion:', error)
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }

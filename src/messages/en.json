@@ -214,6 +214,74 @@
         "patchInvalid": "Invalid patch",
         "patchApplyFailed": "Could not apply complete patch",
         "unexpectedError": "Unexpected error"
+      },
+      "magicDeduction": {
+        "title": "Magic Deduction",
+        "regenerate": "Regenerate",
+        "generating": "Generating...",
+        "close": "Close",
+        "analyzing": "Analyzing chapter...",
+        "consideringContext": "Considering {characters} characters, {events} previous events",
+        "noContentMessage": "Write content in the chapter to generate suggestions",
+        "clickToGenerate": "Click \"Regenerate\" to generate suggestions",
+        "needContent": "You need to write content in the chapter before generating suggestions.",
+        "generateError": "Error generating suggestions: {error}",
+        "unexpectedError": "Unexpected error generating suggestions.",
+        "acceptError": "Error accepting suggestion: {error}",
+        "acceptUnexpectedError": "Unexpected error accepting suggestion."
+      },
+      "suggestions": {
+        "characters": {
+          "title": "Characters",
+          "count": "({count})",
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "pending": "Pending",
+          "confidence": "Confidence: {percentage}%",
+          "new": "New",
+          "existing": "Existing",
+          "context": "Context:",
+          "accept": "Accept",
+          "edit": "Edit",
+          "reject": "Reject",
+          "noCharacters": "No new characters found",
+          "allProcessed": "All suggestions have been processed ✨"
+        },
+        "events": {
+          "title": "Events",
+          "count": "({count})",
+          "confidence": "Confidence: {percentage}%",
+          "involvedCharacters": "Characters:",
+          "context": "Context:",
+          "accept": "Accept",
+          "edit": "Edit",
+          "reject": "Reject",
+          "noEvents": "No new events found",
+          "allProcessed": "All suggestions have been processed ✨"
+        },
+        "relations": {
+          "title": "Relations",
+          "count": "({count})",
+          "confidence": "Confidence: {percentage}%",
+          "context": "Context:",
+          "accept": "Accept",
+          "edit": "Edit",
+          "reject": "Reject",
+          "noRelations": "No new relations found",
+          "allProcessed": "All suggestions have been processed ✨"
+        }
+      },
+      "activeCharacters": {
+        "title": "Characters",
+        "activeCount": "{count} active",
+        "noCharacters": "No characters registered yet. Use magic deduction to add some.",
+        "eventCount": "{count} event",
+        "eventCountPlural": "{count} events",
+        "relationCount": "{count} relation",
+        "relationCountPlural": "{count} relations",
+        "recentEvents": "Recent events",
+        "relations": "Relations",
+        "unknown": "Unknown"
       }
     },
     "textEditor": {

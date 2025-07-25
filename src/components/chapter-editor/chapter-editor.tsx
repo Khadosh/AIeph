@@ -16,8 +16,8 @@ import { useSaveMetadata } from '@/hooks/use-save-metadata'
 import { SaveStatus } from '@/components/ui/save-status'
 import { ChapterData } from '@/types/chapter'
 import { NovelWithAll, NovelWithChapters } from '@/types/novel'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog'
-import { UserPlus2 } from 'lucide-react'
+import MagicDeductionManager from '@/components/magic-deduction-manager'
+import ActiveCharacters from '@/components/active-characters'
 
 type Chapter = Tables<'chapters'>
 
@@ -89,30 +89,20 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
             className="flex items-center gap-2"
           >
             <Brain className="h-4 w-4" />
-            Deducción Mágica
+            {t('magicDeduction.title')}
           </Button>
           <SaveStatus saveState={autosaveState.overall} />
         </div>
       </div>
 
-      {/* Magic Deduction Modal */}
-      <Dialog open={showMagicModal} onOpenChange={setShowMagicModal}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Deducción Mágica</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p>Aquí aparecerán las sugerencias de personajes, eventos y relaciones deducidas por la IA.</p>
-            {/* Placeholder de sugerencias */}
-            <div className="bg-gray-100 rounded p-4 text-sm text-gray-500">(Sin sugerencias aún)</div>
-            <div className="flex justify-end">
-              <DialogClose asChild>
-                <Button variant="secondary">Cerrar</Button>
-              </DialogClose>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Magic Deduction Manager */}
+      <MagicDeductionManager
+        novel={novel}
+        chapter={chapter}
+        content={chapterData.content}
+        isOpen={showMagicModal}
+        onOpenChange={setShowMagicModal}
+      />
 
       {/* Main content with proper scrolling */}
       <div className="flex-1 flex min-h-0">
@@ -146,18 +136,7 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
         </div>
         {/* Right Panel - Active Characters */}
         <div className="w-80 border-l border-gray-200 bg-white flex flex-col">
-          <div className="p-4 border-b border-gray-100">
-            <div className="font-semibold text-lg mb-2 flex items-center gap-2">
-              <UserPlus2 className="h-5 w-5 text-primary" />
-              Personajes activos
-            </div>
-            {/* Placeholder de personajes activos */}
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>Juan (protagonista)</li>
-              <li>María (antagonista)</li>
-              <li>El sabio anciano</li>
-            </ul>
-          </div>
+          <ActiveCharacters novel={novel} chapter={chapter} />
           {/* Panel de sugerencias IA (puede quedar para feedback/ayuda) */}
           <div className="flex-1 overflow-y-auto">
             <Suggestions content={chapterData.content} />

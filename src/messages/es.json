@@ -214,6 +214,74 @@
         "patchInvalid": "Patch inválido",
         "patchApplyFailed": "No se pudo aplicar el patch completo",
         "unexpectedError": "Error inesperado"
+      },
+      "magicDeduction": {
+        "title": "Deducción Mágica",
+        "regenerate": "Regenerar",
+        "generating": "Generando...",
+        "close": "Cerrar",
+        "analyzing": "Analizando el capítulo...",
+        "consideringContext": "Considerando {characters} personajes, {events} eventos previos",
+        "noContentMessage": "Escribe contenido en el capítulo para generar sugerencias",
+        "clickToGenerate": "Haz clic en \"Regenerar\" para generar sugerencias",
+        "needContent": "Necesitas escribir contenido en el capítulo antes de generar sugerencias.",
+        "generateError": "Error al generar sugerencias: {error}",
+        "unexpectedError": "Error inesperado al generar sugerencias.",
+        "acceptError": "Error al aceptar sugerencia: {error}",
+        "acceptUnexpectedError": "Error inesperado al aceptar sugerencia."
+      },
+      "suggestions": {
+        "characters": {
+          "title": "Personajes",
+          "count": "({count})",
+          "accepted": "Aceptado",
+          "rejected": "Rechazado",
+          "pending": "Pendiente",
+          "confidence": "Confianza: {percentage}%",
+          "new": "Nuevo",
+          "existing": "Existente",
+          "context": "Contexto:",
+          "accept": "Aceptar",
+          "edit": "Editar",
+          "reject": "Rechazar",
+          "noCharacters": "No se encontraron nuevos personajes",
+          "allProcessed": "Todas las sugerencias han sido procesadas ✨"
+        },
+        "events": {
+          "title": "Eventos",
+          "count": "({count})",
+          "confidence": "Confianza: {percentage}%",
+          "involvedCharacters": "Personajes:",
+          "context": "Contexto:",
+          "accept": "Aceptar",
+          "edit": "Editar", 
+          "reject": "Rechazar",
+          "noEvents": "No se encontraron nuevos eventos",
+          "allProcessed": "Todas las sugerencias han sido procesadas ✨"
+        },
+        "relations": {
+          "title": "Relaciones",
+          "count": "({count})",
+          "confidence": "Confianza: {percentage}%",
+          "context": "Contexto:",
+          "accept": "Aceptar",
+          "edit": "Editar",
+          "reject": "Rechazar",
+          "noRelations": "No se encontraron nuevas relaciones",
+          "allProcessed": "Todas las sugerencias han sido procesadas ✨"
+        }
+      },
+      "activeCharacters": {
+        "title": "Personajes",
+        "activeCount": "{count} activos",
+        "noCharacters": "No hay personajes registrados aún. Usa la deducción mágica para agregar algunos.",
+        "eventCount": "{count} evento",
+        "eventCountPlural": "{count} eventos",
+        "relationCount": "{count} relación",
+        "relationCountPlural": "{count} relaciones",
+        "recentEvents": "Eventos recientes",
+        "relations": "Relaciones",
+        "unknown": "Desconocido"
       }
     },
     "textEditor": {

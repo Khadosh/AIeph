@@ -100,7 +100,7 @@ export const fetchNovelWithAll = async (novelId: string) => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('novels')
-    .select('*, chapters(*), characters(*), events(*), character_relations(*)')
+    .select('*, chapters(*, character_relations(*), events(*, event_characters(*))), characters(*)')
     .eq('id', novelId)
     .single()
 

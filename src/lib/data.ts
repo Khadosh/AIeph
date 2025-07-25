@@ -77,3 +77,32 @@ export const fetchNovelWithChapter = async (novelId: string, chapterId: string) 
 
   return { data, error }
 }
+
+export const fetchCharacters = async (novelId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('characters')
+    .select('*')
+    .eq('novel_id', novelId)
+
+  return { data, error }
+}
+
+export const fetchEvents = async (novelId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .eq('novel_id', novelId)
+}
+
+export const fetchNovelWithAll = async (novelId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('novels')
+    .select('*, chapters(*), characters(*), events(*), character_relations(*)')
+    .eq('id', novelId)
+    .single()
+
+  return { data, error }
+}

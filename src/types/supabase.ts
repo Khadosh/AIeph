@@ -82,6 +82,7 @@ export type Database = {
       }
       character_relations: {
         Row: {
+          chapter_id: string | null
           character_a_id: string | null
           character_b_id: string | null
           context: string | null
@@ -93,6 +94,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          chapter_id?: string | null
           character_a_id?: string | null
           character_b_id?: string | null
           context?: string | null
@@ -104,6 +106,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          chapter_id?: string | null
           character_a_id?: string | null
           character_b_id?: string | null
           context?: string | null
@@ -115,6 +118,27 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "character_relations_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_relations_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters_ordered"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_relations_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "public_chapters"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "character_relations_character_a_id_fkey"
             columns: ["character_a_id"]

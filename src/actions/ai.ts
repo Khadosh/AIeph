@@ -1,6 +1,6 @@
 'use server'
 
-import { NovelWithChapters } from "@/types/novel";
+import { NovelWithAll, NovelWithChapters } from "@/types/novel";
 import { Tables } from "@/types/supabase";
 import { GoogleGenAI } from "@google/genai";
 
@@ -124,4 +124,65 @@ async function generateSummary(novel: NovelWithChapters, currentChapter: Tables<
   return response;
 }
 
-export { generateFeedback, generateSummary };
+async function generateMagic(
+  novel: NovelWithAll,
+  currentChapter: Tables<'chapters'>,
+  userText: string
+) {
+  // 1. Filtrar eventos y relaciones hasta el capítulo actual
+  const currentOrder = currentChapter.order_index;
+
+  const characters = novel.characters;
+  const events = novel.events.filter(e => {
+    const ch = novel.chapters.find(c => c.id === e.chapter_id);
+    return ch && ch.order_index <= currentOrder;
+  });
+  const relations = novel.character_relations.filter(r => {
+    const ch = novel.chapters.find(c => c.id === r.chapter_id);
+    return ch && ch.order_index <= currentOrder;
+  });
+
+  // 2. Armar el contexto narrativo
+  const contextString = `
+Contexto narrativo hasta ahora:
+Personajes existentes:
+${JSON.stringify(characters, null, 2)}
+
+Eventos existentes:
+${JSON.stringify(events, null, 2)}
+
+Relaciones existentes:
+${JSON.stringify(relations, null, 2)}
+`;
+
+  // 3. Armar el prompt
+  const prompt = `
+Eres un editor profesional y un analista de narrativas.
+Tu tarea es analizar el texto de un capítulo de novela y extraer información relevante para la deducción mágica.
+
+Antes de analizar, revisa el contexto narrativo de la novela hasta este capítulo.
+NO repitas personajes, eventos o relaciones que ya existan en el contexto.
+Si detectas ampliaciones o cambios en personajes/eventos/relaciones existentes, indícalo claramente en el JSON.
+
+${contextString}
+
+Analiza el siguiente texto de capítulo y sugiere SOLO nuevos personajes, eventos y relaciones, o ampliaciones de los existentes.
+Devuelve la información en formato JSON con la siguiente estructura:
+{
+  "characters": [ ... ],
+  "events": [ ... ],
+  "relationships": [ ... ]
+}
+
+Texto a analizar:
+---
+${userText}
+---
+`;
+
+  // 4. Llamar a la IA
+  const response = await generateOutput(prompt, true);
+  return response;
+}
+
+export { generateFeedback, generateSummary, generateMagic };

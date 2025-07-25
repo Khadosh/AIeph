@@ -1,4 +1,4 @@
-import { fetchNovelWithChapters } from '@/lib/data'
+import { fetchNovelWithAll } from '@/lib/data'
 import ChapterEditor from '@/components/chapter-editor/chapter-editor'
 import { Tables } from '@/types/supabase'
 
@@ -11,7 +11,7 @@ interface NewChapterPageProps {
 
 export default async function NewChapterPage({ params }: NewChapterPageProps) {
   const { novel_id, chapter_id} = await params
-  const { data: novel } = await fetchNovelWithChapters(novel_id)
+  const { data: novel } = await fetchNovelWithAll(novel_id)
 
   const chapter = novel?.chapters.find((chapter: Tables<'chapters'>) => chapter.id === chapter_id)
 

@@ -15,7 +15,5 @@ export default async function NewChapterPage({ params }: NewChapterPageProps) {
 
   const chapter = novel?.chapters.find((chapter: Tables<'chapters'>) => chapter.id === chapter_id)
 
-  console.log(novel, chapter)
-
   return <ChapterEditor novel={novel} chapter={chapter} />
 } 

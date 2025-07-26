@@ -94,6 +94,8 @@ export const fetchEvents = async (novelId: string) => {
     .from('events')
     .select('*')
     .eq('novel_id', novelId)
+
+    return { data, error }
 }
 
 export const fetchNovelWithAll = async (novelId: string) => {

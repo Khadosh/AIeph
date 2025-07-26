@@ -279,9 +279,21 @@
         "eventCountPlural": "{count} events",
         "relationCount": "{count} relation",
         "relationCountPlural": "{count} relations",
-        "recentEvents": "Recent events",
-        "relations": "Relations",
-        "unknown": "Unknown"
+        "currentChapterEvents": "In this chapter",
+        "currentChapterRelations": "New relations",
+        "unknown": "Unknown",
+        "searchPlaceholder": "Search characters...",
+        "currentChapterActive": "Active in this chapter",
+        "previouslyActive": "Previously active",
+        "inactiveCharacters": "Inactive characters",
+        "allCharacters": "All characters",
+        "inactive": "Inactive",
+        "detectionMethods": {
+          "mentioned": "Mentioned",
+          "event": "Event",
+          "eventAndText": "Event + Text",
+          "inactive": "Inactive"
+        }
       }
     },
     "textEditor": {

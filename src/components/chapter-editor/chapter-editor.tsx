@@ -17,7 +17,7 @@ import { SaveStatus } from '@/components/ui/save-status'
 import { ChapterData } from '@/types/chapter'
 import { NovelWithAll, NovelWithChapters } from '@/types/novel'
 import MagicDeductionManager from '@/components/magic-deduction-manager'
-import ActiveCharacters from '@/components/active-characters'
+import { ActiveCharacters } from '@/components/active-characters'
 
 type Chapter = Tables<'chapters'>
 
@@ -107,7 +107,7 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
       {/* Main content with proper scrolling */}
       <div className="flex-1 flex min-h-0">
         {/* Left Panel - Summary and Notes */}
-        <div className="w-80 border-r border-gray-200 bg-gray-50 flex flex-col">
+        <div className="flex-1 max-w-100 border-r border-gray-200 bg-gray-50 flex flex-col">
           <Summary
             novel={novel as NovelWithChapters}
             chapter={chapter}
@@ -125,8 +125,9 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
             />
           </div>
         </div>
+        
         {/* Center - Text Editor */}
-        <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex-1 min-w-3xl flex flex-col min-h-0">
           <div className="flex-1 min-h-0">
             <TextEditor
               content={chapterData.content}
@@ -134,9 +135,10 @@ export default function ChapterEditor({ novel, chapter }: ChapterEditorProps) {
             />
           </div>
         </div>
+        
         {/* Right Panel - Active Characters */}
-        <div className="w-80 border-l border-gray-200 bg-white flex flex-col">
-          <ActiveCharacters novel={novel} chapter={chapter} />
+        <div className="flex-1 max-w-100 border-l border-gray-200 bg-white flex flex-col">
+          <ActiveCharacters novel={novel} chapter={chapter} content={chapterData.content} />
           {/* Panel de sugerencias IA (puede quedar para feedback/ayuda) */}
           <div className="flex-1 overflow-y-auto">
             <Suggestions content={chapterData.content} />

@@ -92,23 +92,11 @@ async function generateSummary(novel: NovelWithChapters, currentChapter: Tables<
   - Idioma: El mismo idioma del texto original.
   - Formato: Párrafos de texto plano.
 
-  ### TAREA 1: RESUMEN EN PROSA ###
+  ### TAREA: RESUMEN EN PROSA ###
   Escribe un resumen en prosa del capítulo. El resumen debe cumplir con los siguientes requisitos:
   - Longitud: Hasta 200 palabras. Si puede condensarse en 100, mejor.
   - Focaliza en los cambios y evoluciones del protagonista y los personajes más importantes.
   - Si un personaje ha sido previamente introducido (según el contexto previo), no repetir su descripción, solo su acción.
-
-
-  ### TAREA 2: ANÁLISIS ESTRUCTURADO ###
-  Extrae la siguiente información y preséntala en la estructura de lista solicitada.
-  Agrega la sección sólo si es relevante para el capítulo, sólo Personajes es obligatorio.
-
-  Personajes:
-  Identifica únicamente a los personajes más importantes del capítulo (aquellos con nombre o un rol decisivo). 
-  Ignora personajes anónimos o de fondo a menos que su acción sea el catalizador de un evento principal.
-  - [Nombre del Personaje 1]: [Breve descripción de su rol en este capítulo]
-  - [Nombre del Personaje 2]: [Breve descripción de su rol en este capítulo]
-
 
   --------------------------------------------------------------------
 
@@ -270,35 +258,6 @@ ${userText}
 
   // 4. Llamar a la IA
   const response = await generateOutput(prompt, true);
-  
-  // 5. Post-procesar la respuesta para generar UUIDs válidos
-  if (response && !response.error) {
-    try {
-      // Generar UUIDs válidos para todas las sugerencias
-      if (response.personajes) {
-        response.personajes = response.personajes.map((char: any) => ({
-          ...char,
-          id: crypto.randomUUID()
-        }));
-      }
-      if (response.eventos) {
-        response.eventos = response.eventos.map((event: any) => ({
-          ...event,
-          id: crypto.randomUUID()
-        }));
-      }
-      if (response.relaciones) {
-        response.relaciones = response.relaciones.map((rel: any) => ({
-          ...rel,
-          id: crypto.randomUUID(),
-          characterAId: rel.characterAId || crypto.randomUUID(),
-          characterBId: rel.characterBId || crypto.randomUUID()
-        }));
-      }
-    } catch (error) {
-      console.error('Error post-processing AI response:', error);
-    }
-  }
   
   return response;
 }

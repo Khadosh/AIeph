@@ -274,14 +274,26 @@
       "activeCharacters": {
         "title": "Personajes",
         "activeCount": "{count} activos",
-        "noCharacters": "No hay personajes registrados aún. Usa la deducción mágica para agregar algunos.",
+        "noCharacters": "Aún no hay personajes registrados. Usa la deducción mágica para agregar algunos.",
         "eventCount": "{count} evento",
         "eventCountPlural": "{count} eventos",
         "relationCount": "{count} relación",
         "relationCountPlural": "{count} relaciones",
-        "recentEvents": "Eventos recientes",
-        "relations": "Relaciones",
-        "unknown": "Desconocido"
+        "currentChapterEvents": "En este capítulo",
+        "currentChapterRelations": "Nuevas relaciones",
+        "unknown": "Desconocido",
+        "searchPlaceholder": "Buscar personajes...",
+        "currentChapterActive": "Activos en este capítulo",
+        "previouslyActive": "Activos anteriormente",
+        "inactiveCharacters": "Personajes inactivos",
+        "allCharacters": "Todos los personajes",
+        "inactive": "Inactivo",
+        "detectionMethods": {
+          "mentioned": "Mencionado",
+          "event": "Evento",
+          "eventAndText": "Evento + Texto",
+          "inactive": "Inactivo"
+        }
       }
     },
     "textEditor": {
